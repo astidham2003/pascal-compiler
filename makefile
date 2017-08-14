@@ -29,6 +29,11 @@ CLASSES = \
 	.\\wci\\frontend\\TokenType.java \
 	.\\wci\\frontend\\pascal\\PascalParserTD.java \
 	.\\wci\\frontend\\pascal\\PascalScanner.java \
+	.\\wci\\frontend\\pascal\\PascalToken.java \
+	.\\wci\\frontend\\pascal\\PascalTokenType.java \
+	.\\wci\\frontend\\pascal\\PascalErrorHandler.java \
+	.\\wci\\frontend\\pascal\\PascalErrorCode.java \
+	.\\wci\\frontend\\pascal\\tokens\\PascalErrorToken.java \
 	.\\wci\\intermediate\\ICode.java \
 	.\\wci\\intermediate\\SymTab.java \
 	.\\wci\\message\\Message.java \
@@ -38,8 +43,6 @@ CLASSES = \
 	.\\wci\\message\\MessageType.java \
 	.\\Pascal.java
 
-# The default make target entry.
-dafault: classes
 
 # This target entry uses Suffix Replacement within a macro:
 # $(name:string1=string2)

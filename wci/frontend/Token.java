@@ -36,6 +36,26 @@ public class Token
 		return lineNum;
 	}
 
+	public int getPosition()
+	{
+		return position;
+	}
+
+	public Object getValue()
+	{
+		return value;
+	}
+
+	public String getText()
+	{
+		return text;
+	}
+
+	public TokenType getType()
+	{
+		return type;
+	}
+
 	/**
 	* Default method to extract only one character tokens from the
 	* source.  Subclasses can override this method to construct

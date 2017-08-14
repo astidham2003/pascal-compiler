@@ -7,6 +7,7 @@ import wci.backend.*;
 import wci.message.*;
 
 import static wci.message.MessageType.*;
+import static wci.frontend.pascal.PascalTokenType.STRING;
 
 /**
 * <h1>Pascal</h1>
@@ -148,6 +149,11 @@ public class Pascal
 			"\n%,20d source lines." +
 			"\n%,20d syntax errors." +
 			"\n%,20.2f seconds total parsing time.\n";
+		static final String TOKEN_FORMAT =
+			">>> %-15s line=%03d, pos=%2d, text=\"%s\"";
+		static final String VALUE_FORMAT =
+			">>>			value=%s";
+		static final int PREFIX_WIDTH = 5;
 
 		/**
 		* Called by the parser whenever it produces a message.
@@ -157,7 +163,9 @@ public class Pascal
 		@Override
 		public void messageReceived(Message msg)
 		{
-			if (msg.getType() == PARSER_SUMMARY) {
+			MessageType msgType = msg.getType();
+
+			if (msgType == PARSER_SUMMARY) {
 				Object[] body = (Object[]) msg.getBody();
 				int statementCount = (Integer) body[0];
 				int syntaxErrors = (Integer) body[1];
@@ -167,6 +175,67 @@ public class Pascal
 					PARSER_SUMMARY_FORMAT,
 					statementCount,syntaxErrors,elapsed);
 			}
+
+			else if (msgType == TOKEN) {
+				Object[] body = (Object[]) msg.getBody();
+				int line = (Integer) body[0];
+				int position = (Integer) body[1];
+				TokenType tokenType = (TokenType) body[2];
+				String tokenTxt = (String) body[3];
+				Object tokenValue = body[4];
+
+				System.out.println(
+					String.format(
+						TOKEN_FORMAT,
+						tokenType,
+						line,
+						position,
+						tokenTxt));
+
+				if (tokenValue != null) {
+					if (tokenType == STRING) {
+						tokenValue =
+							String.format("\"%s\"",tokenValue);
+					}
+
+					System.out.println(
+						String.format(
+							VALUE_FORMAT,tokenValue));
+				}
+			}
+
+			else if (msgType == SYNTAX_ERROR) {
+				Object[] body = (Object[]) msg.getBody();
+				int lineNumber = (Integer) body[0];
+				int position = (Integer) body[1];
+				String tokenText = (String) body[2];
+				String errorMsg = (String) body[3];
+
+				int spaceCount = PREFIX_WIDTH + position;
+				StringBuilder flagBuffer = new StringBuilder();
+
+				// Spaces up to the error position.
+				for (int i = 1; i < spaceCount; ++i) {
+					flagBuffer.append(' ');
+				}
+
+				// A pointer to the error followed by the error
+				// message.
+				flagBuffer.
+					append("^\n*** ").
+					append(errorMsg);
+
+				// Text, if any, of the bad token.
+				if (tokenText != null) {
+					flagBuffer.
+						append(" [at \"").
+						append(tokenText).
+						append("\"]");
+				}
+
+				System.out.println(flagBuffer.toString());
+			}
+
 		}
 	}
 
