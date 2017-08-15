@@ -2,13 +2,24 @@ package wci.frontend.pascal;
 
 import wci.frontend.*;
 
+/**
+* <h1>PascalToken</h1>
+*
+* <p>Base class for Pascal token classes.</p>
+*/
 public class PascalToken extends Token
 {
-	// XXX Creating this empty class now so that I can test
-	// XXX compilation.
-	public PascalToken(Source source) throws Exception
+
+	/**
+	* Constructor.
+	*
+	* @param source the source from where to fetch the token's
+	* characters.
+	*/
+	protected PascalToken(Source source) throws Exception
 	{
 		super(source);
 	}
+
 }
 

@@ -34,6 +34,7 @@ CLASSES = \
 	.\\wci\\frontend\\pascal\\PascalErrorHandler.java \
 	.\\wci\\frontend\\pascal\\PascalErrorCode.java \
 	.\\wci\\frontend\\pascal\\tokens\\PascalErrorToken.java \
+	.\\wci\\frontend\\pascal\\tokens\\PascalWordToken.java \
 	.\\wci\\intermediate\\ICode.java \
 	.\\wci\\intermediate\\SymTab.java \
 	.\\wci\\message\\Message.java \
@@ -50,6 +51,17 @@ CLASSES = \
 # Below we are replacing the suffix .java of all words in the macro CLASSES
 # with the .class suffix.
 classes: $(CLASSES:.java=.class)
+
+scanner_test:
+	java -cp classes Pascal compile scannertest.txt
+
+# Interpret hello.pas
+hello_i:
+	java -cp classes Pascal execute hello.pas
+
+# Compile hello.pas
+hello_c:
+	java -cp classes Pascal compile hello.pas
 
 # RM is a predefined macro in make (RM = rm -f)
 # XXX Can't seem to get recursive deletion of all files in

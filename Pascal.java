@@ -246,7 +246,7 @@ public class Pascal
 	{
 		static final String INTERPRETER_SUMMARY_FORMAT =
 			"\n%,20d statements executed." +
-			"\n%,20dd runtime erros." +
+			"\n%,20d runtime errors." +
 			"\n%,20.2f seconds total execution time.\n";
 
 		static final String COMPILER_SUMMARY_FORMAT =
