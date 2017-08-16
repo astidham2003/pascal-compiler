@@ -32,6 +32,7 @@ public class Source implements MessageProducer,AutoCloseable
 
 	/**
 	* Constructor.
+	*
 	* @param reader the reader for the source program.
 	* @throws IOException if an I/O error ocurred.
 	*/
@@ -96,6 +97,7 @@ public class Source implements MessageProducer,AutoCloseable
 	/**
 	* Consume the current source character and return the next
 	* character.
+	*
 	* @return the next source character.
 	* @throws Exception if an error occurred.
 	*/
@@ -108,6 +110,7 @@ public class Source implements MessageProducer,AutoCloseable
 	/**
 	* Return the source character following the current character
 	* without consuming the current character.
+	*
 	* @return the following character.
 	* @throws Exception if an error occurred.
 	*/
@@ -124,6 +127,7 @@ public class Source implements MessageProducer,AutoCloseable
 
 	/**
 	* Read the next source line.
+	*
 	* @throws IOException if an I/O error occurred.
 	*/
 	private void readLine() throws IOException
@@ -152,6 +156,7 @@ public class Source implements MessageProducer,AutoCloseable
 
 	/**
 	* Close the source.
+	*
 	* @throws Exception if an error occurred.
 	*/
 	@Override
