@@ -37,6 +37,9 @@ CLASSES = \
 	.\\wci\\frontend\\pascal\\tokens\\PascalWordToken.java \
 	.\\wci\\intermediate\\ICode.java \
 	.\\wci\\intermediate\\SymTab.java \
+	.\\wci\\intermediate\\SymTabStack.java \
+	.\\wci\\intermediate\\SymTabEntry.java \
+	.\\wci\\intermediate\\SymTabKey.java \
 	.\\wci\\message\\Message.java \
 	.\\wci\\message\\MessageHandler.java \
 	.\\wci\\message\\MessageListener.java \
