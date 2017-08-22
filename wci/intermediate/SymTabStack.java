@@ -22,7 +22,7 @@ public interface SymTabStack
 	*
 	* @return the new entry
 	*/
-	public SymTabEntry enterLocal();
+	public SymTabEntry enterLocal(String name);
 
 	/**
 	* Look up an existing symbol table entry in the local symbol table.
@@ -35,7 +35,7 @@ public interface SymTabStack
 	/**
 	* Look up an existing symbol table entry throughout the stack.
 	*
-	* @param name the nmae of the entry
+	* @param name the name of the entry
 	* @return the entry, or null if it doesn't exist
 	*/
 	public SymTabEntry lookup(String name);
