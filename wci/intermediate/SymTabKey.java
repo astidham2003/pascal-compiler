@@ -1,7 +1,8 @@
 package wci.intermediate;
 
-// XXX In the UML diagram as being used by SymTabEntry,
-// but SymTabEntry doesn't show any usage.
+/**
+* <h1>SymTabKey</h1>
+*/
 public interface SymTabKey
 {
 }
