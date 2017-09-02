@@ -2,7 +2,7 @@ package wci.backend.compiler;
 
 import wci.message.*;
 import wci.backend.Backend;
-import wci.intermediate.SymTab;
+import wci.intermediate.SymTabStack;
 import wci.intermediate.ICode;
 
 import static wci.message.MessageType.*;
@@ -23,12 +23,12 @@ public class CodeGenerator extends Backend
 	* by the parser to generate machine level instructions.
 	*
 	* @param iCode the intermediate code
-	* @param symTab the symbol table
+	* @param symTabStack the symbol table stack
 	* @throws Exception
 	*/
 	@Override
 	public void process(
-		ICode iCode,SymTab symTab) throws Exception
+		ICode iCode,SymTabStack symTabStack) throws Exception
 	{
 		long t0 = System.currentTimeMillis();
 		float elapsed = (System.currentTimeMillis() - t0)/1000f;

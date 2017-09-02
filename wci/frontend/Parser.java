@@ -15,7 +15,6 @@ import wci.message.*;
 public abstract class Parser implements MessageProducer
 {
 
-	// XXX This was here before we had a SymTabStack.  Still needed?
 	protected static SymTab symTab;	// Generated symbol table.
 	protected static SymTabStack symTabStack;
 	protected static MessageHandler messageHandler; // Delegate
@@ -40,11 +39,9 @@ public abstract class Parser implements MessageProducer
 		this.iCode = null;
 	}
 
-	// XXX This was here before we had a SymTabStack.
-	//  Still needed? What sym tab would it return?
-	public SymTab getSymTab()
+	public SymTabStack getSymTabStack()
 	{
-		return symTab;
+		return symTabStack;
 	}
 
 	public ICode getICode()

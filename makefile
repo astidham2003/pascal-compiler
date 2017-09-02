@@ -52,3 +52,6 @@ hello_i:
 hello_c:
 	java -cp classes Pascal compile hello.pas
 
+# Compile with cross reference flag
+newton_xref:
+	java -cp classes Pascal compile -x newton.pas

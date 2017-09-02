@@ -1,7 +1,7 @@
 package wci.backend;
 
 import wci.message.*;
-import wci.intermediate.SymTab;
+import wci.intermediate.SymTabStack;
 import wci.intermediate.ICode;
 
 /**
@@ -14,7 +14,7 @@ public abstract class Backend implements MessageProducer
 
 	protected static MessageHandler messageHandler;
 	protected ICode iCode;
-	protected SymTab symTab;
+	protected SymTabStack symTabStack;
 
 	static
 	{
@@ -26,11 +26,11 @@ public abstract class Backend implements MessageProducer
 	* by the parser.  To be implemented by a compiler or an
 	* interpreter subclass.
 	* @param iCode the intermediate code
-	* @param symTab the symbol table
+	* @param symTabStack the symbol table stack
 	* @throws Exception
 	*/
 	public abstract void process(
-		ICode iCode,SymTab symTab) throws Exception;
+		ICode iCode,SymTabStack symTabStack) throws Exception;
 
 	// ----------------------------------------------------------------
 	// MessageProducer methods

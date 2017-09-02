@@ -2,11 +2,13 @@ package wci.frontend.pascal;
 
 import wci.frontend.*;
 import wci.message.Message;
+import wci.intermediate.SymTabEntry;
 
 import static wci.frontend.pascal.PascalErrorCode.IO_ERROR;
 import static wci.message.MessageType.PARSER_SUMMARY;
 import static wci.message.MessageType.TOKEN;
 import static wci.frontend.pascal.PascalTokenType.ERROR;
+import static wci.frontend.pascal.PascalTokenType.IDENTIFIER;
 
 
 /**
@@ -45,25 +47,25 @@ public class PascalParserTD extends Parser
 		try{
 			while (!((token = nextToken()) instanceof EofToken)) {
 				TokenType tokenType = token.getType();
-				if (tokenType != ERROR) {
-					// Format each token.
-					sendMessage(
-						new Message(
-							TOKEN,
-							new Object[] {
-								token.getLineNumber(),
-								token.getPosition(),
-								tokenType,
-								token.getText(),
-								token.getValue()
-							}));
+
+				// Cross reference only the identifiers.
+				if (tokenType == IDENTIFIER) {
+					String name = token.getText().toLowerCase();
+
+					// If it's not already in the symbol table,
+					// create and enter a new identifier.
+					SymTabEntry entry = symTabStack.lookup(name);
+					if (entry == null) {
+						entry = symTabStack.enterLocal(name);
+					}
+
+					// Append the current line number to the entry.
+					entry.appendLineNumber(token.getLineNumber());
 				}
 
-				else {
+				else if (tokenType == ERROR) {
 					errorHandler.flag(
-						token,
-						(PascalErrorCode) token.getValue(),
-						this);
+						token,(PascalErrorCode)token.getValue(),this);
 				}
 			}
 

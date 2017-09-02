@@ -5,6 +5,7 @@ import wci.frontend.*;
 import wci.intermediate.*;
 import wci.backend.*;
 import wci.message.*;
+import wci.util.CrossReferencer;
 
 import static wci.message.MessageType.*;
 import static wci.frontend.pascal.PascalTokenType.STRING;
@@ -23,7 +24,7 @@ public class Pascal
 	// XXX a reference to it?
 	private Source source; // Language independant scanner.
 	private ICode iCode;
-	private SymTab symTab;
+	private SymTabStack symTabStack;
 	private Backend backend;
 
 	private static final String FLAGS = "[-ix]";
@@ -43,9 +44,6 @@ public class Pascal
 	*/
 	public Pascal(String operation,String filePath,String flags)
 	{
-		// XXX Seems a little odd for all of this in the
-		// XXX constructor.  Sortof defies the adage of trying
-		// XXX not to throw exceptions in constructors.
 		// XXX Changed source to implement AutoCloseable so it
 		// XXX could be used this way.
 		// XXX Keep in mind that this is now a different source
@@ -55,7 +53,6 @@ public class Pascal
 						new FileReader(filePath)))) {
 			// XXX Not used?
 			boolean intermediate = flags.indexOf('i') > -1;
-			// XXX Not used?
 			boolean xref = flags.indexOf('x') > -1;
 
 			source.addMessageListener(new SourceMessageListener());
@@ -72,9 +69,15 @@ public class Pascal
 			parser.parse();
 
 			iCode = parser.getICode();
-			symTab = parser.getSymTab();
+			symTabStack = parser.getSymTabStack();
 
-			backend.process(iCode,symTab);
+			if (xref) {
+				CrossReferencer crossReferencer =
+					new CrossReferencer();
+				crossReferencer.print(symTabStack);
+			}
+
+			backend.process(iCode,symTabStack);
 		}
 		catch (Exception e) {
 			System.out.println(
