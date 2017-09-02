@@ -2,31 +2,34 @@ package wci.intermediate.symtabimpl;
 
 import wci.intermediate.*;
 
-import java.util.Stack;
+import java.util.ArrayList;
 
 /**
 * <h1>SymTabStackImpl</h1>
 */
-// XXX Just taking a stab at things, here.
-// Will have to change a lot, I'm sure.
-public class SymTabStackImpl implements SymTabStack
+public class SymTabStackImpl
+	extends ArrayList<SymTab>
+	implements SymTabStack
 {
-	private int currentNestingLevel;
-	private Stack<SymTab> symTabStack;
+	// XXX Don't worry about this until chapter 9.
+	private int currentNestingLevel; // Current scope nesting level.
 
 	/**
 	* Constructor.
 	*/
 	public SymTabStackImpl()
 	{
-		symTabStack = new Stack<SymTab>();
+		currentNestingLevel = 0;
+		add(SymTabFactory.createSymTab(currentNestingLevel));
 	}
+
+	// ----------------------------------------------------------------
+	// SymTabStack methods
 
 	@Override
 	public SymTab getLocalSymTab()
 	{
-		// XXX Or should this be pop?
-		return symTabStack.peek();
+		return get(currentNestingLevel);
 	}
 
 	@Override
@@ -38,29 +41,19 @@ public class SymTabStackImpl implements SymTabStack
 	@Override
 	public SymTabEntry enterLocal(String name)
 	{
-		return symTabStack.peek().enter(
-				new SymTabEntryImpl(
-						name,
-						symTabStack.peek()));
+		return get(currentNestingLevel).enter(name);
 	}
 
 	@Override
 	public SymTabEntry lookupLocal(String name)
 	{
-		return symTabStack.peek().lookup(name);
+		return get(currentNestingLevel).lookup(name);
 	}
 
 	@Override
 	public SymTabEntry lookup(String name)
 	{
-		Iterator iter = symTabStack.iterator();
-		SymTabEntry entry = null;
-		while (iter.hasNext() && entry == null)
-		{
-			entry = iter.next().lookup(name);
-		}
-
-		return entry;
+		return lookupLocal(name);
 	}
 
 }

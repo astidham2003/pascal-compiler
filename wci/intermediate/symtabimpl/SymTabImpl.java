@@ -1,23 +1,34 @@
 package wci.intermediate.symtabimpl;
 
 import wci.intermediate.*;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.TreeMap;
 
 /**
 * <h1>SymTabImpl</h1>
+*
+* <p>An implementation of the symbol table.</p>
 */
-public class SymTabImpl implements SymTab
+public class SymTabImpl
+	extends TreeMap<String,SymTabEntry>
+	implements SymTab
 {
+	// XXX Don't worry about this until chapter 9.
 	private int nestingLevel;
-	private HashTable<String,SymTabEntry> entries;
 
 	/**
 	* Constructor.
 	*/
-	public SymTabImpl()
+	public SymTabImpl(int nestingLevel)
 	{
-		entries = new HashTable<String,SymTabEntry>();
+		this.nestingLevel = nestingLevel;
 	}
+
+	// ----------------------------------------------------------------
+	// SymTab methods
 
 	@Override
 	public int getNestingLevel()
@@ -25,25 +36,50 @@ public class SymTabImpl implements SymTab
 		return nestingLevel;
 	}
 
+	/**
+	* Create and enter a new entry into the symbol table.
+	*
+	* @param name the name of the entry
+	* @return the new entry
+	*/
 	@Override
+	@SuppressWarnings("unchecked")
 	public SymTabEntry enter(String name)
 	{
-		// XXX How to document this exception?
-		if (entries.containsKey(name)) {
-			throw new IllegalArgumentException(
-				String.format(
-					"Symbol table already contains entry: '%s'",
-					name));
-		}
-
-		entries.put(name, new SymTabEntryImpl(name,this));
+		SymTabEntry e = SymTabFactory.createSymTabEntry(name,this);
+		put(name,e);
+		return e;
 	}
 
+
+	/**
+	* Look up an existing symbol table entry.
+	*
+	* @param name the name of the entry
+	* @return the entry, or null if it does not exist
+	*/
+	@Override
+	public SymTabEntry lookup(String name)
+	{
+		return get(name);
+	}
+
+	/**
+	* @return a list of symbol table entries sorted by name
+	*/
 	@Override
 	public ArrayList<SymTabEntry> sortedEntries()
 	{
-		return new ArrayList<SymTabEntry>(entries.values()).
-			sorted(Comparator.comparing(SymTabEntry::getName));
+		// XXX Seems a little convoluted to build the list this
+		// way.  Why not return new ArrayList(values())?
+		Collection<SymTabEntry> vs = values();
+		Iterator<SymTabEntry> iter = vs.iterator();
+		ArrayList<SymTabEntry> l = new ArrayList<SymTabEntry>(size());
+		while (iter.hasNext()) {
+			l.add(iter.next());
+		}
+
+		return l;
 	}
 
 }

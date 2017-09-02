@@ -9,8 +9,15 @@ import wci.backend.interpreter.Executor;
 * <p>A factory class that creates compiler and interpreter
 * components. </p>
 */
-public class BackendFactory
+public final class BackendFactory
 {
+	/**
+	* Constructor
+	*/
+	private BackendFactory()
+	{
+	}
+
 	/**
 	* Create a compiler or an interpreter back end component.
 	*

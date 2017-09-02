@@ -9,8 +9,14 @@ import wci.frontend.pascal.PascalScanner;
 * <p>A factory class that creates parsers for specific source
 * languages.</p>
 */
-public class FrontendFactory
+public final class FrontendFactory
 {
+	/**
+	* Constructor
+	*/
+	private FrontendFactory()
+	{
+	}
 
 	/**
 	* Create a parser.
