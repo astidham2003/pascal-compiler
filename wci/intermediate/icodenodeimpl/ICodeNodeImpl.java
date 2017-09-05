@@ -2,7 +2,7 @@ package wci.intermediate.icodeimpl;
 
 import wci.intermediate.ICodeKey;
 import wci.intermediate.ICodeNode;
-import wci.intermediate.ICodeType;
+import wci.intermediate.ICodeNodeType;
 
 import util.ArrayList;
 
@@ -17,7 +17,7 @@ public class ICodeNodeImpl implements ICodeNode
 	*
 	* @param type the node type
 	*/
-	public ICodeNodeImpl(ICodeType type)
+	public ICodeNodeImpl(ICodeNodeType type)
 	{
 	}
 
@@ -28,7 +28,7 @@ public class ICodeNodeImpl implements ICodeNode
 	* @return the node type
 	*/
 	@Override
-	public ICodeType getType()
+	public ICodeNodeType getType()
 	{
 	}
 
@@ -86,6 +86,7 @@ public class ICodeNodeImpl implements ICodeNode
 	*
 	* @return the copy
 	*/
+	@Override
 	public ICodeNode copy()
 	{
 	}

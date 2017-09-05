@@ -12,7 +12,7 @@ public interface ICodeNode
 	/**
 	* @return the node type
 	*/
-	public ICodeType getType();
+	public ICodeNodeType getType();
 
 	/**
 	* @return the parent node

@@ -5,7 +5,7 @@ package wci.intermediate;
 *
 * <p>Marker interface for an intermediate code type.</p>
 */
-public interface ICodeType
+public interface ICodeNodeType
 {
 }
 
