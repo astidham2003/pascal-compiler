@@ -1,5 +1,25 @@
 package wci.intermediate;
 
+/**
+* <h1>ICode</h1>
+*
+* <p>The framework interface that represents the intermediate code.</p>
+*/
 public interface ICode
 {
+
+	/**
+	* Set the root node.
+	*
+	* @param node the node to set as root
+	* @return the root node
+	*/
+	public ICodeNode setRoot(ICodeNode node);
+
+	/**
+	* @return the root node.
+	*/
+	public ICodeNode getRoot();
+
 }
+
