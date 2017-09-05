@@ -1,24 +1,39 @@
 package wci.intermediate.icodeimpl;
 
-import wci.intermediate.ICodeKey;
-import wci.intermediate.ICodeNode;
-import wci.intermediate.ICodeNodeType;
+import wci.intermediate.*;
 
-import util.ArrayList;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
 * <h1>ICodeNodeImpl</h1>
+*
+* <p>An implementation of a node of the intermediate code.</p>
 */
-public class ICodeNodeImpl implements ICodeNode
+public class ICodeNodeImpl
+	extends HashMap<ICodeKey,Object>
+	implements ICodeNode
 {
+
+	private final ICodeNodeType type;
+	private final ArrayList<ICodeNode> children;
+
+	private ICodeNode parent;
 
 	/**
 	* Constructor.
 	*
-	* @param type the node type
+	* @param type the node type whose name will be the name of this
+	* node
 	*/
 	public ICodeNodeImpl(ICodeNodeType type)
 	{
+		this.parent = null;
+		this.type = type;
+		this.children = new ArrayList<ICodeNode>();
 	}
 
 	// ----------------------------------------------------------------
@@ -30,6 +45,7 @@ public class ICodeNodeImpl implements ICodeNode
 	@Override
 	public ICodeNodeType getType()
 	{
+		return type;
 	}
 
 	/**
@@ -38,6 +54,7 @@ public class ICodeNodeImpl implements ICodeNode
 	@Override
 	public ICodeNode getParent()
 	{
+		return parent;
 	}
 
 	/**
@@ -49,6 +66,18 @@ public class ICodeNodeImpl implements ICodeNode
 	@Override
 	public ICodeNode addChild(ICodeNode node)
 	{
+		if (node != null) {
+
+			children.add(node);
+
+			// XXX Does assuming the node is a ICodeNodeImpl
+			// XXX violate the 'program to an interface' guideline?
+			// XXX After all, we are passing an interface and then
+			// XXX demanding that it be an implementation.
+			((ICodeNodeImpl) node).parent = this;
+		}
+
+		return node;
 	}
 
 	/**
@@ -57,6 +86,7 @@ public class ICodeNodeImpl implements ICodeNode
 	@Override
 	public ArrayList<ICodeNode> getChildren()
 	{
+		return children;
 	}
 
 	/**
@@ -66,8 +96,10 @@ public class ICodeNodeImpl implements ICodeNode
 	* @param value the attribute value
 	*/
 	@Override
+	@SuppressWarning("unchecked")
 	public void setAttribute(ICodeKey key,Object value)
 	{
+		put(key,value);
 	}
 
 	/**
@@ -77,8 +109,10 @@ public class ICodeNodeImpl implements ICodeNode
 	* @return value the attribute value
 	*/
 	@Override
-	public void getAttribute(ICodeKey key)
+	@SuppressWarning("unchecked")
+	public Object getAttribute(ICodeKey key)
 	{
+		return get(key);
 	}
 
 	/**
@@ -89,6 +123,21 @@ public class ICodeNodeImpl implements ICodeNode
 	@Override
 	public ICodeNode copy()
 	{
+		ICodeNodeImpl copy =
+			(ICodeNodeImpl) ICodeFactory.createICodeNode(type);
+		Set<Map.Entry<ICodeKey,Object>> attributes = entrySet();
+
+		for(Map.Entry<ICodeKey,Object> attribute : attributes) {
+			copy.put(attribute.getKey(),attribute.getValue())
+		}
+
+		return copy;
+	}
+
+	@Override
+	public String toString()
+	{
+		return type.toString();
 	}
 
 }

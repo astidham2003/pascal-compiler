@@ -9,6 +9,12 @@ import wci.intermediate.icodeimpl.ICodeNodeImpl;
 * <p>A factory for creating objects that implement the intermediate
 * code.</p>
 */
+// XXX As with the other factories (SymTabFactory, FrontendFactory),
+// XXX this factory allows us to hide the actual implementation
+// XXX types behind interfaces.  Without a factory to provide an
+// XXX interface, the client would instantiate the implementation and
+// XXX would be able to see all of the methods that it
+// XXX inherited from its parent class (if it has one).
 public final class ICodeFactory
 {
 
