@@ -96,7 +96,7 @@ public class ICodeNodeImpl
 	* @param value the attribute value
 	*/
 	@Override
-	@SuppressWarning("unchecked")
+	@SuppressWarnings("unchecked")
 	public void setAttribute(ICodeKey key,Object value)
 	{
 		put(key,value);
@@ -109,7 +109,7 @@ public class ICodeNodeImpl
 	* @return value the attribute value
 	*/
 	@Override
-	@SuppressWarning("unchecked")
+	@SuppressWarnings("unchecked")
 	public Object getAttribute(ICodeKey key)
 	{
 		return get(key);
@@ -128,7 +128,7 @@ public class ICodeNodeImpl
 		Set<Map.Entry<ICodeKey,Object>> attributes = entrySet();
 
 		for(Map.Entry<ICodeKey,Object> attribute : attributes) {
-			copy.put(attribute.getKey(),attribute.getValue())
+			copy.put(attribute.getKey(),attribute.getValue());
 		}
 
 		return copy;

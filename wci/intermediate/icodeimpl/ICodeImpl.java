@@ -9,9 +9,7 @@ import wci.intermediate.ICodeNode;
 public class ICodeImpl implements ICode
 {
 
-	public ICode()
-	{
-	}
+	private ICodeNode root;
 
 	// ----------------------------------------------------------------
 	// ICode methods
@@ -25,14 +23,17 @@ public class ICodeImpl implements ICode
 	@Override
 	public ICodeNode setRoot(ICodeNode node)
 	{
+		root = node;
+		return node;
 	}
 
 	/**
 	* @return the root node
 	*/
-	@Overide
+	@Override
 	public ICodeNode getRoot()
 	{
+		return root;
 	}
 
 }

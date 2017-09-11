@@ -1,4 +1,4 @@
-package wci.intermediate.icodenodeimpl;
+package wci.intermediate.icodeimpl;
 
 import wci.intermediate.ICodeKey;
 

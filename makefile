@@ -15,6 +15,7 @@ JC = javac
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
+	.\\wci\\util\\ParseTreePrinter.java \
 	.\\Pascal.java
 
 # RM is a predefined macro in make (RM = rm -f)
@@ -31,7 +32,9 @@ clean:
 	-$(RM) .\\classes\\wci\\frontend\\pascal\\tokens\\*.class
 	-$(RM) .\\classes\\wci\\intermediate\\*.class
 	-$(RM) .\\classes\\wci\\intermediate\\symtabimpl\\*.class
+	-$(RM) .\\classes\\wci\\intermediate\\icodenodeimp\\*.class
 	-$(RM) .\\classes\\wci\\message\\*.class
+	-$(RM) .\\classes\\wci\\util\\*.class
 
 
 # This target entry uses Suffix Replacement within a macro:
