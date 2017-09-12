@@ -31,6 +31,7 @@ public abstract class Parser implements MessageProducer
 
 	/**
 	* Constructor.
+	*
 	* @param scanner the scanner to be used with this parser.
 	*/
 	protected Parser(Scanner scanner)
@@ -49,10 +50,16 @@ public abstract class Parser implements MessageProducer
 		return iCode;
 	}
 
+	public Scanner getScanner()
+	{
+		return scanner;
+	}
+
 	/**
 	* Parse a source program and generate the intermediate code
 	* and the symbol table.  To be implemented by a language-specific
 	* parser subclass.
+	*
 	* @ throws Exception if an error occurred.
 	*/
 	public abstract void parse() throws Exception;
@@ -60,6 +67,7 @@ public abstract class Parser implements MessageProducer
 	/**
 	* Return the number of syntax errors found by the parser.
 	* To be implemented by a language-specific parser subclass.
+	*
 	* @ return the error count.
 	*/
 	public abstract int getErrorCount();
@@ -75,6 +83,7 @@ public abstract class Parser implements MessageProducer
 
 	/**
 	* Call the scanner's nextToken() method.
+	*
 	* @return the next token.
 	* @throws Exception if an error occured.
 	*/
@@ -88,6 +97,7 @@ public abstract class Parser implements MessageProducer
 
 	/**
 	* Add a parser message listener.
+	*
 	* @param listener the message listener to add
 	*/
 	@Override
@@ -99,6 +109,7 @@ public abstract class Parser implements MessageProducer
 
 	/**
 	* Remove a parser message listener.
+	*
 	* @param listener the message listener to remove
 	*/
 	@Override
@@ -109,6 +120,7 @@ public abstract class Parser implements MessageProducer
 
 	/**
 	* Notify listeners after setting the message.
+	*
 	* @param msg the message to set
 	*/
 	@Override

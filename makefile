@@ -30,9 +30,10 @@ clean:
 	-$(RM) .\\classes\\wci\\frontend\\*.class
 	-$(RM) .\\classes\\wci\\frontend\\pascal\\*.class
 	-$(RM) .\\classes\\wci\\frontend\\pascal\\tokens\\*.class
+	-$(RM) .\\classes\\wci\\frontend\\pascal\\parsers\\*.class
 	-$(RM) .\\classes\\wci\\intermediate\\*.class
 	-$(RM) .\\classes\\wci\\intermediate\\symtabimpl\\*.class
-	-$(RM) .\\classes\\wci\\intermediate\\icodenodeimp\\*.class
+	-$(RM) .\\classes\\wci\\intermediate\\icodeimpl\\*.class
 	-$(RM) .\\classes\\wci\\message\\*.class
 	-$(RM) .\\classes\\wci\\util\\*.class
 
@@ -58,3 +59,7 @@ hello_c:
 # Compile with cross reference flag
 newton_xref:
 	java -cp classes Pascal compile -x newton.pas
+
+# Compile with intermediate code flag.
+intermediate_xml:
+	java -cp classes Pascal compile -i assignments.txt

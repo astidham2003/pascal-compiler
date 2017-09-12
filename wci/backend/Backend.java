@@ -25,6 +25,7 @@ public abstract class Backend implements MessageProducer
 	* Process the intermediate code and the symbol table generated
 	* by the parser.  To be implemented by a compiler or an
 	* interpreter subclass.
+	*
 	* @param iCode the intermediate code
 	* @param symTabStack the symbol table stack
 	* @throws Exception

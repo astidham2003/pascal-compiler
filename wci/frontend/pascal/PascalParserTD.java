@@ -1,14 +1,27 @@
 package wci.frontend.pascal;
 
-import wci.frontend.*;
 import wci.message.Message;
+
 import wci.intermediate.SymTabEntry;
+import wci.intermediate.ICodeFactory;
+import wci.intermediate.ICodeNode;
+
+import wci.frontend.*;
+
+import wci.frontend.pascal.parsers.StatementParser;
 
 import static wci.frontend.pascal.PascalErrorCode.IO_ERROR;
-import static wci.message.MessageType.PARSER_SUMMARY;
-import static wci.message.MessageType.TOKEN;
+import static wci.frontend.pascal.PascalErrorCode.MISSING_PERIOD;
+import static wci.frontend.pascal.PascalErrorCode.UNEXPECTED_TOKEN;
+
 import static wci.frontend.pascal.PascalTokenType.ERROR;
 import static wci.frontend.pascal.PascalTokenType.IDENTIFIER;
+import static wci.frontend.pascal.PascalTokenType.DOT;
+import static wci.frontend.pascal.PascalTokenType.BEGIN;
+
+
+import static wci.message.MessageType.PARSER_SUMMARY;
+import static wci.message.MessageType.TOKEN;
 
 
 /**
@@ -24,11 +37,22 @@ public class PascalParserTD extends Parser
 
 	/**
 	* Constructor.
-	* @param scanner the scanner to be used with this parser
+	*
+	* @param scanner the source scanner
 	*/
 	public PascalParserTD(Scanner scanner)
 	{
 		super(scanner);
+	}
+
+	/**
+	* Constructor.
+	*
+	* @param parent the parent parser
+	*/
+	public PascalParserTD(PascalParserTD parent)
+	{
+		super(parent.getScanner());
 	}
 
 	// ----------------------------------------------------------------
@@ -41,45 +65,45 @@ public class PascalParserTD extends Parser
 	@Override
 	public void parse() throws Exception
 	{
-		Token token;
 		long t0 = System.currentTimeMillis();
+		iCode = ICodeFactory.createICode();
 
 		try{
-			while (!((token = nextToken()) instanceof EofToken)) {
-				TokenType tokenType = token.getType();
+			Token token = nextToken();
+			ICodeNode rootNode = null;
 
-				// Cross reference only the identifiers.
-				if (tokenType == IDENTIFIER) {
-					String name = token.getText().toLowerCase();
+			// Look for the BEGIN token to parse a compound statement.
+			if (token.getType() == BEGIN) {
+				StatementParser statementParser =
+					new StatementParser(this);
+				rootNode = statementParser.parse(token);
+				token = currentToken();
+			}
+			else {
+				errorHandler.flag(token,UNEXPECTED_TOKEN,this);
+			}
 
-					// If it's not already in the symbol table,
-					// create and enter a new identifier.
-					SymTabEntry entry = symTabStack.lookup(name);
-					if (entry == null) {
-						entry = symTabStack.enterLocal(name);
-					}
+			// Look for the final period.
+			if (token.getType() != DOT) {
+				errorHandler.flag(token,MISSING_PERIOD,this);
+			}
+			token = currentToken();
 
-					// Append the current line number to the entry.
-					entry.appendLineNumber(token.getLineNumber());
-				}
-
-				else if (tokenType == ERROR) {
-					errorHandler.flag(
-						token,(PascalErrorCode)token.getValue(),this);
-				}
+			// Set the parse tree root node.
+			if (rootNode != null) {
+				iCode.setRoot(rootNode);
 			}
 
 			// Send the parser summary message.
-			float elapsedTime = (System.currentTimeMillis() - t0)/1000f;
+			float elapsedTime =
+				(System.currentTimeMillis() - t0) / 1000f;
 			sendMessage(
 				new Message(
 					PARSER_SUMMARY,
-					new Number[]
-						{
+					new Number[] {
 						token.getLineNumber(),
 						getErrorCount(),
-						elapsedTime
-						}));
+						elapsedTime}));
 		}
 		catch (java.io.IOException e) {
 			errorHandler.abortTranslation(IO_ERROR,this);
@@ -88,6 +112,7 @@ public class PascalParserTD extends Parser
 
 	/**
 	* The number of errors found by this parser.
+	*
 	* @return the number of syntax errors found by the parser
 	*/
 	@Override
