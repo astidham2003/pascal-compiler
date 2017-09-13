@@ -44,7 +44,8 @@ public enum PascalTokenType implements TokenType
 	// XXX doesn't allow nulls.
 	public static Hashtable<String,PascalTokenType> SPECIAL_SYMBOLS;
 
-	static {
+	static
+	{
 		RESERVED_WORDS = new HashSet<String>();
 		PascalTokenType[] values = PascalTokenType.values();
 		for (int i = FIRST_RESERVED_INDEX;
