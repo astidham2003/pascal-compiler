@@ -1,14 +1,20 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import wci.frontend.*;
 import wci.intermediate.*;
+
+import wci.frontend.*;
+
 import wci.backend.*;
+
 import wci.message.*;
+
 import wci.util.CrossReferencer;
+import wci.util.ParseTreePrinter;
+
+import static wci.frontend.pascal.PascalTokenType.STRING;
 
 import static wci.message.MessageType.*;
-import static wci.frontend.pascal.PascalTokenType.STRING;
 
 /**
 * <h1>Pascal</h1>
@@ -75,6 +81,11 @@ public class Pascal
 				CrossReferencer crossReferencer =
 					new CrossReferencer();
 				crossReferencer.print(symTabStack);
+			}
+			if (intermediate) {
+				ParseTreePrinter treePrinter =
+					new ParseTreePrinter(System.out);
+				treePrinter.print(iCode);
 			}
 
 			backend.process(iCode,symTabStack);

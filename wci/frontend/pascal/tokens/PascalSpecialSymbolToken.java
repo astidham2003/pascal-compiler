@@ -40,22 +40,22 @@ public class PascalSpecialSymbolToken extends PascalToken
 				currentChar == '{' || currentChar == '}' ||
 				currentChar == '^') {
 			nextChar();
+			type = SPECIAL_SYMBOLS.get(text);
 		}
 		// : or :=
 		else if (currentChar == ':') {
-			nextChar();
+			currentChar = nextChar();
 
 			if (currentChar == '=') {
 				text += currentChar;
 				nextChar();
 			}
+			type = SPECIAL_SYMBOLS.get(text);
 		}
 		// < or <= or <>
 		else if (currentChar == '<') {
 			currentChar = nextChar();
 
-			// XXX Seems like we could || these in one
-			// if-statement.  Maybe they need to separate for later?
 			if (currentChar == '=') {
 				text += currentChar;
 				nextChar();
@@ -65,6 +65,7 @@ public class PascalSpecialSymbolToken extends PascalToken
 				text += currentChar;
 				nextChar();
 			}
+			type = SPECIAL_SYMBOLS.get(text);
 		}
 		// > or >=
 		else if (currentChar == '>') {
@@ -74,6 +75,7 @@ public class PascalSpecialSymbolToken extends PascalToken
 				text += currentChar;
 				nextChar();
 			}
+			type = SPECIAL_SYMBOLS.get(text);
 		}
 		// . or ..
 		else if (currentChar == '.') {
@@ -83,16 +85,13 @@ public class PascalSpecialSymbolToken extends PascalToken
 				text += currentChar;
 				nextChar();
 			}
+			type = SPECIAL_SYMBOLS.get(text);
 		}
 
 		else {
 			nextChar(); // Consume bad character.
 			type = ERROR;
 			value = INVALID_CHARACTER;
-		}
-
-		if (type == null) {
-			type = SPECIAL_SYMBOLS.get(text);
 		}
 
 	}

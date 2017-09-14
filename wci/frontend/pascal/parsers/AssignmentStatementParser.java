@@ -68,7 +68,7 @@ public class AssignmentStatementParser
 
 		// Look for the := token.
 		if (token.getType() == COLON_EQUALS) {
-			nextToken(); // Consume the :=.
+			token = nextToken(); // Consume the :=.
 		}
 		else {
 			errorHandler.flag(token,MISSING_COLON_EQUALS,this);

@@ -15,7 +15,6 @@ JC = javac
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-	.\\wci\\util\\ParseTreePrinter.java \
 	.\\Pascal.java
 
 # RM is a predefined macro in make (RM = rm -f)
@@ -63,3 +62,6 @@ newton_xref:
 # Compile with intermediate code flag.
 intermediate_xml:
 	java -cp classes Pascal compile -i assignments.txt
+
+small_intermediate_xml:
+	java -cp classes Pascal compile -i small_assignments.txt
