@@ -15,8 +15,6 @@ JC = javac
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-	.\\wci\\backend\\interpreter\\RuntimeErrorCode.java \
-	.\\wci\\backend\\interpreter\\RuntimeErrorHandler.java \
 	.\\Pascal.java
 
 # RM is a predefined macro in make (RM = rm -f)
@@ -28,6 +26,7 @@ clean:
 	-$(RM) .\\classes\\wci\\backend\\*.class
 	-$(RM) .\\classes\\wci\\backend\\compiler\\*.class
 	-$(RM) .\\classes\\wci\\backend\\interpreter\\*.class
+	-$(RM) .\\classes\\wci\\backend\\interpreter\\executors\\*.class
 	-$(RM) .\\classes\\wci\\frontend\\*.class
 	-$(RM) .\\classes\\wci\\frontend\\pascal\\*.class
 	-$(RM) .\\classes\\wci\\frontend\\pascal\\tokens\\*.class

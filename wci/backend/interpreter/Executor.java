@@ -1,9 +1,14 @@
 package wci.backend.interpreter;
 
-import wci.message.*;
 import wci.backend.Backend;
+
+import wci.backend.interpreter.executors.StatementExecutor;
+
 import wci.intermediate.SymTabStack;
 import wci.intermediate.ICode;
+import wci.intermediate.ICodeNode;
+
+import wci.message.*;
 
 import static wci.message.MessageType.*;
 
@@ -14,6 +19,34 @@ import static wci.message.MessageType.*;
 */
 public class Executor extends Backend
 {
+
+	protected static int executionCount;
+	protected static RuntimeErrorHandler errorHandler;
+
+	static {
+		executionCount = 0;
+		errorHandler = new RuntimeErrorHandler();
+	}
+
+	/**
+	* Constructor.
+	*
+	* @param the parent executor
+	*/
+	public Executor()
+	{
+		super();
+	}
+
+	/**
+	* Constructor.
+	*
+	* @param the parent executor
+	*/
+	public Executor(Executor parent)
+	{
+		super();
+	}
 
 	// ----------------------------------------------------------------
 	// Backend method
@@ -30,10 +63,19 @@ public class Executor extends Backend
 	public void process(
 		ICode iCode,SymTabStack symTabStack) throws Exception
 	{
+		this.symTabStack = symTabStack;
+		this.iCode = iCode;
+
 		long t0 = System.currentTimeMillis();
+
+		// Get the root node of the intermediate code and execute.
+		ICodeNode rootNode = iCode.getRoot();
+		StatementExecutor statementExecutor =
+			new StatementExecutor(this);
+		statementExecutor.execute(rootNode);
+
 		float elapsed = (System.currentTimeMillis() - t0)/1000f;
-		int executionCount = 0;
-		int runtimeErrors = 0;
+		int runtimeErrors = errorHandler.getErrorCount();
 
 		sendMessage(
 			new Message(

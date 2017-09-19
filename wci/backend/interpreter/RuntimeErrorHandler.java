@@ -23,6 +23,11 @@ public class RuntimeErrorHandler
 
 	private static int errorCount = 0;
 
+	public int getErrorCount()
+	{
+		return errorCount;
+	}
+
 	/**
 	* Flag a runtime.
 	*
