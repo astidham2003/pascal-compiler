@@ -15,6 +15,8 @@ JC = javac
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
+	.\\wci\\backend\\interpreter\\RuntimeErrorCode.java \
+	.\\wci\\backend\\interpreter\\RuntimeErrorHandler.java \
 	.\\Pascal.java
 
 # RM is a predefined macro in make (RM = rm -f)

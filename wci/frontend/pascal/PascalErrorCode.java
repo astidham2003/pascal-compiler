@@ -105,15 +105,9 @@ public enum PascalErrorCode
 		return status;
 	}
 
-	/**
-	* Getter.
-	*
-	* @return the error message
-	*/
-	public String getMessage()
+	public String toString()
 	{
 		return message;
 	}
-
 }
 
