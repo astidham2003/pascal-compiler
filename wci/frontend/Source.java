@@ -23,7 +23,7 @@ public class Source implements MessageProducer,AutoCloseable
 	private BufferedReader reader;	// Reader for the source program.
 	private String line; 			// One line of source code.
 	private int lineNum;			// Current line number.
-	private int currentPos;			// Current line postition.
+	private int currentPos;			// Current line position.
 
 	static
 	{

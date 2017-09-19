@@ -61,7 +61,7 @@ public enum PascalErrorCode
 	TOO_MANY_LEVELS("Nesting level too deep"),
 	TOO_MANY_SUBSCRIPTS("Too many subscripts"),
 	UNEXPECTED_EOF("Unexptected end of file"),
-	UNEXPECTED_TOKEN("Unexptected token"),
+	UNEXPECTED_TOKEN("Unexpected token"),
 	UNIMPLEMENTED("Unimplemented feature"),
 	UNRECGONIZABLE("Unrecognizable input"),
 	WRONG_NUMBER_OF_PARMS("Wrong number of actual parameters"),

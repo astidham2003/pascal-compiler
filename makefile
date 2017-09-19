@@ -63,5 +63,6 @@ newton_xref:
 intermediate_xml:
 	java -cp classes Pascal compile -i assignments.txt
 
-small_intermediate_xml:
-	java -cp classes Pascal compile -i small_assignments.txt
+intermediate_error_xml:
+	java -cp classes Pascal compile -i assignments_error.txt
+

@@ -316,6 +316,8 @@ public class ExpressionParser extends StatementParser
 
 			// Parse an expression and make its node the root node.
 			rootNode = parseExpression(token);
+
+			token = currentToken();
 			if ((PascalTokenType) token.getType() == RIGHT_PAREN) {
 				token = nextToken(); // Consume the ).
 			}

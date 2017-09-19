@@ -1,6 +1,6 @@
 BEGIN
     BEGIN {Temperature conversions.}
-        five := -1 + 2 - 3 + 4 + 3;
+        five := -1 + 2 - 3 + 4 + -3;
         ratio := five/9.0;
 
         fahrenheit := 72;
@@ -9,12 +9,12 @@ BEGIN
         centigrade := 25;
         fahrenheit := centigrade/ratio + 32;
 
-        centigrade := 25;
-        fahrenheit := 32 + centigrade/ratio;
-    END;
+        centigrade := 25
+        fahrenheit := 32 + celsius/ratio;
+    END
 
     {Runtime division by zero error.}
-    dze := fahrenheit/(ratio-ratio);
+    dze fahrenheit/((ratio-ratio) :=;
 
     BEGIN {Calculate a square root using Newton's method.}
         number := 2;

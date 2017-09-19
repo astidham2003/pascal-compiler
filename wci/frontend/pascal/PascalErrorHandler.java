@@ -36,7 +36,7 @@ public class PascalErrorHandler
 					token.getLineNumber(),
 					token.getPosition(),
 					token.getText(),
-					errorCode.toString()
+					errorCode.getMessage()
 				}));
 
 		if (++errorCount > MAX_ERRORS) {
