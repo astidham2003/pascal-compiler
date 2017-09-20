@@ -61,7 +61,7 @@ public class StatementExecutor extends Executor
 		else if (nodeType == ASSIGN) {
 			AssignmentExecutor assignmentExecutor =
 				new AssignmentExecutor(this);
-			return assignmentExecutor;
+			return assignmentExecutor.execute(node);
 		}
 
 		else if (nodeType == NO_OP) {

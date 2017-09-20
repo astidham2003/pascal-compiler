@@ -43,7 +43,7 @@ public class RuntimeErrorHandler
 
 		// Look for the ancestor statement node with a line number
 		// attribute.
-		while (node != null) {
+		while (node != null && node.getAttribute(LINE) == null) {
 			node = node.getParent();
 		}
 

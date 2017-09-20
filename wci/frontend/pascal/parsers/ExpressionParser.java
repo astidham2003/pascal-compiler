@@ -87,7 +87,9 @@ public class ExpressionParser extends StatementParser
 	}
 
 	/**
-	* Parse an expression.
+	* Parse an expression.  An expression is a simple expression.  Or
+	* a simple expression followed by a relational operator
+	* (=,<>,<,<=,>,>=) followed by a simple expression.
 	*
 	* @param token the initial token
 	* @return the root node of the generated parse tree
@@ -138,7 +140,10 @@ public class ExpressionParser extends StatementParser
 	}
 
 	/**
-	* Parse a simple expression.
+	* Parse a simple expression.  A simple expression is a
+	* an optional sign (+ or -) followed by a term.
+	* Or an optional sign (+ or -) followed by a term followed
+	* by a either +,-,or OR followed by a term.
 	*
 	* @param token the initial token
 	* @return the root of the generated parse subtree
@@ -205,7 +210,8 @@ public class ExpressionParser extends StatementParser
 	}
 
 	/**
-	* Parse a term.
+	* Parse a term.  A term is a factor, or a factor followed by any of
+	* of the following: *,/,DIV,MOD,AND followed by another factor.
 	*
 	* @param token the initial token
 	* @return the root node of the parse subtree
@@ -249,7 +255,8 @@ public class ExpressionParser extends StatementParser
 	}
 
 	/**
-	* Parse a factor.
+	* Parse a factor.  A factor is a variable, or number, or string,
+	* or NOT followed by another factor, or an expression between ().
 	*
 	* @param token the initial token
 	* @return the root node of the parse subtree

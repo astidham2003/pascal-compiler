@@ -258,6 +258,8 @@ public class Pascal
 	*/
 	private class BackendMessageListener implements MessageListener
 	{
+		boolean firstOutputMessage = true;
+
 		static final String INTERPRETER_SUMMARY_FORMAT =
 			"\n%,20d statements executed." +
 			"\n%,20d runtime errors." +
@@ -267,6 +269,9 @@ public class Pascal
 			"\n%,20d instructions generated." +
 			"\n%,20.2f seconds total code generation time.\n";
 
+		static final String ASSIGN_FORMAT =
+			" >>> LINE %03d: %s = %s\n";
+
 		/**
 		* Called by the back end whenever it produces a message.
 		*
@@ -275,6 +280,7 @@ public class Pascal
 		@Override
 		public void messageReceived(Message msg)
 		{
+
 			if (msg.getType() == INTERPRETER_SUMMARY) {
 				Number[] body = (Number[]) msg.getBody();
 				int executionCount = (Integer) body[0];
@@ -286,7 +292,7 @@ public class Pascal
 					executionCount,runtimeErrors,elapsed);
 			}
 
-			else if(msg.getType() == COMPILER_SUMMARY) {
+			else if (msg.getType() == COMPILER_SUMMARY) {
 				Number[] body = (Number[]) msg.getBody();
 				int instructionCount = (Integer) body[0];
 				float elapsed = (Float) body[1];
@@ -294,6 +300,34 @@ public class Pascal
 				System.out.printf(
 					COMPILER_SUMMARY_FORMAT,
 					instructionCount,elapsed);
+			}
+
+			else if (msg.getType() == ASSIGN) {
+				if (firstOutputMessage) {
+					System.out.println("\n===== OUTPUT =====\n");
+					firstOutputMessage = false;
+				}
+
+				Object body[] = (Object[]) msg.getBody();
+				int lineNumber = (Integer) body[0];
+				String variableName = (String) body[1];
+				Object value = body[2];
+
+				System.out.printf(ASSIGN_FORMAT,
+					lineNumber,variableName,value);
+			}
+
+			else if (msg.getType() == RUNTIME_ERROR) {
+				Object body[] = (Object[]) msg.getBody();
+				String errorMessage = (String) body[0];
+				Integer lineNumber = (Integer) body[1];
+
+				System.out.print("*** RUNTIME ERROR");
+				if (lineNumber != null) {
+					System.out.print(" AT LINE " +
+						String.format("%03d",lineNumber));
+				}
+				System.out.println(": " + errorMessage);
 			}
 		}
 

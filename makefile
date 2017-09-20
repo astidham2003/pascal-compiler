@@ -60,10 +60,16 @@ hello_c:
 newton_xref:
 	java -cp classes Pascal compile -x newton.pas
 
-# Compile with intermediate code flag.
+# Compile with i flag to produce the intermediate code xml.
 intermediate_xml:
 	java -cp classes Pascal compile -i assignments.txt
 
+# Compile with i flag to produce the intermediate code xml.
+# This version has errors.
 intermediate_error_xml:
 	java -cp classes Pascal compile -i assignments_error.txt
+
+# Execute assignments.txt with the interpreter.
+assignments_execute:
+	java -cp classes Pascal execute assignments.txt
 
