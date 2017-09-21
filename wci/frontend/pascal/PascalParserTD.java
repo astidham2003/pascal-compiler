@@ -1,6 +1,6 @@
 package wci.frontend.pascal;
 
-import wci.message.Message;
+import java.util.EnumSet;
 
 import wci.intermediate.SymTabEntry;
 import wci.intermediate.ICodeFactory;
@@ -10,19 +10,18 @@ import wci.frontend.*;
 
 import wci.frontend.pascal.parsers.StatementParser;
 
+import wci.message.Message;
+
 import static wci.frontend.pascal.PascalErrorCode.IO_ERROR;
 import static wci.frontend.pascal.PascalErrorCode.MISSING_PERIOD;
 import static wci.frontend.pascal.PascalErrorCode.UNEXPECTED_TOKEN;
-
 import static wci.frontend.pascal.PascalTokenType.ERROR;
 import static wci.frontend.pascal.PascalTokenType.IDENTIFIER;
 import static wci.frontend.pascal.PascalTokenType.DOT;
 import static wci.frontend.pascal.PascalTokenType.BEGIN;
 
-
 import static wci.message.MessageType.PARSER_SUMMARY;
 import static wci.message.MessageType.TOKEN;
-
 
 /**
 * <h1>PascalParserTD</h1>
@@ -53,6 +52,37 @@ public class PascalParserTD extends Parser
 	public PascalParserTD(PascalParserTD parent)
 	{
 		super(parent.getScanner());
+	}
+
+	// ----------------------------------------------------------------
+
+	/**
+	* Synchronize the parser.
+	* 
+	* @param syncSet the set of token types for synchronizing the
+	* parser
+	* @return the token where the parser has synchronized
+	* @throws Exception if an error occurred
+	*/
+	public Token synchronize(EnumSet syncSet) throws Exception
+	{
+		Token token = currentToken();
+
+		// If the current token is not in the sync set, then it is
+		// unexpected and the parser must recover.
+		if (!syncSet.contains(token.getType())) {
+			// Flag the unexpected token.
+			errorHandler.flag(token,UNEXPECTED_TOKEN,this);
+
+			// Recover by skipping tokens that are not in the
+			// sync set.
+			do {
+				token = nextToken();
+			} while(!(token instanceof EofToken) &&
+				!syncSet.contains(token.getType()));
+		}
+
+		return token;
 	}
 
 	// ----------------------------------------------------------------
