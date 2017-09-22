@@ -14,6 +14,22 @@ JC = javac
 .java.class:
 	$(JC) $(JFLAGS) $*.java
 
+SOURCES = \
+	.\\Pascal.java \
+	.\\wci\\backend\\*.java \
+	.\\wci\\backend\\compiler\\*.java \
+	.\\wci\\backend\\interpreter\\*.java \
+	.\\wci\\backend\\interpreter\\executors\\*.java \
+	.\\wci\\frontend\\*.java \
+	.\\wci\\frontend\\pascal\\*.java \
+	.\\wci\\frontend\\pascal\\parsers\\*.java \
+	.\\wci\\frontend\pascal\\tokens\\*.java \
+	.\\wci\\intermediate\\*.java \
+	.\\wci\\intermediate\\icodeimpl\\*.java \
+	.\\wci\\intermediate\\symtabimpl\\*.java \
+	.\\wci\\message\\*.java \
+	.\\wci\\util\\*.java
+
 CLASSES = \
 	.\\Pascal.java
 
@@ -36,7 +52,6 @@ clean:
 	-$(RM) .\\classes\\wci\\intermediate\\icodeimpl\\*.class
 	-$(RM) .\\classes\\wci\\message\\*.class
 	-$(RM) .\\classes\\wci\\util\\*.class
-
 
 # This target entry uses Suffix Replacement within a macro:
 # $(name:string1=string2)
@@ -72,4 +87,11 @@ intermediate_error_xml:
 # Execute assignments.txt with the interpreter.
 assignments_execute:
 	java -cp classes Pascal execute assignments.txt
+
+# Generate documents with JavaDocs
+docs:
+	javadoc \
+	$(SOURCES) \
+	-overview .\\overview.html \
+	-d .\docs \
 
