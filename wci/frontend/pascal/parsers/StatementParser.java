@@ -1,5 +1,7 @@
 package wci.frontend.pascal.parsers;
 
+import java.util.EnumSet;
+
 import wci.intermediate.ICodeNode;
 import wci.intermediate.ICodeFactory;
 
@@ -10,6 +12,12 @@ import wci.frontend.EofToken;
 import wci.frontend.pascal.PascalParserTD;
 import wci.frontend.pascal.PascalErrorCode;
 import wci.frontend.pascal.PascalTokenType;
+
+import wci.frontend.pascal.parsers.RepeatStatementParser;
+import wci.frontend.pascal.parsers.WhileStatementParser;
+import wci.frontend.pascal.parsers.ForStatementParser;
+import wci.frontend.pascal.parsers.IfStatementParser;
+import wci.frontend.pascal.parsers.CaseStatementParser;
 
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.NO_OP;
 
@@ -29,6 +37,17 @@ import static wci.frontend.pascal.PascalErrorCode.MISSING_SEMICOLON;
 */
 public class StatementParser extends PascalParserTD
 {
+
+	// Synchronization set for starting a statement.  Contains
+	// SEMICOLON to handle an empty statement.
+	protected static final EnumSet<PascalTokenType> STMT_START_SET =
+		EnumSet.of(BEGIN,CASE,FOR,PascalTokenType.IF,REPEAT,WHILE,
+			IDENTIFIER,SEMICOLON);
+	
+	// Synchronization set for following a statement.
+	protected static final EnumSet<PascalTokenType> STMT_FOLLOW_SET =
+		EnumSet.of(SEMICOLON,END,ELSE,UNTIL,DOT);
+
 	/**
 	* Constructor.
 	*
@@ -63,6 +82,36 @@ public class StatementParser extends PascalParserTD
 			AssignmentStatementParser assignmentParser =
 				new AssignmentStatementParser(this);
 			statementNode = assignmentParser.parse(token);
+		}
+
+		else if (tokenType == REPEAT) {
+			RepeatStatementParser repeatParser =
+				new RepeatStatementParser(this);
+			statementNode = repeatParser.parse(token);
+		}
+
+		else if (tokenType == WHILE) {
+			WhileStatementParser whileParser =
+				new WhileStatementParser(this);
+			statementNode = whileParser.parse(token);
+		}
+
+		else if (tokenType == FOR) {
+			ForStatementParser forParser =
+				new ForStatementParser(this);
+			statementNode = forParser.parse(token);
+		}
+
+		else if (tokenType == PascalTokenType.IF) {
+			IfStatementParser ifParser =
+				new IfStatementParser(this);
+			statementNode = ifParser.parse(token);
+		}
+
+		else if (tokenType == CASE) {
+			CaseStatementParser caseParser =
+				new CaseStatementParser(this);
+			statementNode = caseParser.parse(token);
 		}
 
 		else {
