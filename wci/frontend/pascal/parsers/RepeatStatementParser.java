@@ -5,8 +5,6 @@ import wci.intermediate.ICodeFactory;
 
 import wci.frontend.Token;
 
-import wci.frontend.pascal.parsers.StatementParser;
-
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.LOOP;
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.TEST;
 

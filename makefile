@@ -95,11 +95,28 @@ intermediate_error_xml:
 assignments_execute:
 	java -cp classes Pascal execute assignments.txt
 
-# Compile loops.txt.
-loops_xml:
-	java -cp classes Pascal compile -i loops.txt
+# Compile repeat.txt.  Book also called this loop.txt.  But repeat is
+# more clearer.
+repeat_xml:
+	java -cp classes Pascal compile -i repeat.txt
 
-# Compile loops_error.txt
-loops_error_xml:
-	java -cp classes Pascal compile -i loops_error.txt
+# Compile repeat_error.txt
+repeat_error_xml:
+	java -cp classes Pascal compile -i repeat_error.txt
+
+# Compile while.txt
+while_xml:
+	java -cp classes Pascal compile -i while.txt
+
+# Compile while_errors.txt
+while_error_xml:
+	java -cp classes Pascal compile -i while_errors.txt
+
+# Compile for.txt
+for_xml:
+	java -cp classes Pascal compile -i for.txt
+
+# Compile for.txt
+for_error_xml:
+	java -cp classes Pascal compile -i for_error.txt
 

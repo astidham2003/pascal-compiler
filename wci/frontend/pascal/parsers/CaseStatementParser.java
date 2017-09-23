@@ -4,8 +4,6 @@ import wci.intermediate.ICodeNode;
 
 import wci.frontend.Token;
 
-import wci.frontend.pascal.parsers.StatementParser;
-
 public class CaseStatementParser extends StatementParser
 {
 

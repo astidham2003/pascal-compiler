@@ -13,12 +13,6 @@ import wci.frontend.pascal.PascalParserTD;
 import wci.frontend.pascal.PascalErrorCode;
 import wci.frontend.pascal.PascalTokenType;
 
-import wci.frontend.pascal.parsers.RepeatStatementParser;
-import wci.frontend.pascal.parsers.WhileStatementParser;
-import wci.frontend.pascal.parsers.ForStatementParser;
-import wci.frontend.pascal.parsers.IfStatementParser;
-import wci.frontend.pascal.parsers.CaseStatementParser;
-
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.NO_OP;
 
 import static wci.intermediate.icodeimpl.ICodeKeyImpl.LINE;

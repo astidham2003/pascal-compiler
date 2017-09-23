@@ -21,7 +21,6 @@ import wci.frontend.pascal.PascalTokenType;
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.*;
 import static wci.intermediate.icodeimpl.ICodeKeyImpl.*;
 
-
 import static wci.frontend.pascal.PascalTokenType.*;
 
 import static wci.frontend.pascal.PascalErrorCode.IDENTIFIER_UNDEFINED;
