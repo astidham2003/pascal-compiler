@@ -25,7 +25,6 @@ import static wci.intermediate.icodeimpl.ICodeKeyImpl.LINE;
 
 import static wci.frontend.pascal.PascalTokenType.*;
 
-import static wci.frontend.pascal.PascalErrorCode.UNEXPECTED_TOKEN;
 import static wci.frontend.pascal.PascalErrorCode.MISSING_SEMICOLON;
 
 
@@ -140,10 +139,16 @@ public class StatementParser extends PascalParserTD
 			PascalTokenType terminator,PascalErrorCode errorCode)
 		throws Exception
 	{
+		// Synchronization set for the terminator.
+		EnumSet<PascalTokenType> terminatorSet =
+			STMT_START_SET.clone();
+		terminatorSet.add(terminator);
+
 		// Loop to parse each statement until the END token
 		// or the end of the source file.
 		while (!(token instanceof EofToken) &&
 				(token.getType() != terminator)) {
+
 			// Parse a statement.  The parent node adopts the statement
 			// node.
 			ICodeNode statementNode = parse(token);
@@ -162,12 +167,9 @@ public class StatementParser extends PascalParserTD
 				errorHandler.flag(token,MISSING_SEMICOLON,this);
 			}
 
-			// Unexpected token.
-			else if (tokenType != terminator) {
-				errorHandler.flag(token,UNEXPECTED_TOKEN,this);
-				token = nextToken(); // Consume the unexpected token.
-			}
-
+			// Synchronize at the start of the next statement
+			// or at the terminator.
+			token = synchronize(terminatorSet);
 		}
 
 		if (token.getType() == terminator) {

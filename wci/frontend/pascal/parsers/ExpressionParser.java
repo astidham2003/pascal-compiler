@@ -16,7 +16,6 @@ import wci.frontend.Token;
 import wci.frontend.TokenType;
 
 import wci.frontend.pascal.PascalParserTD;
-
 import wci.frontend.pascal.PascalTokenType;
 
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.*;
@@ -34,6 +33,7 @@ import static wci.frontend.pascal.PascalErrorCode.UNEXPECTED_TOKEN;
 */
 public class ExpressionParser extends StatementParser
 {
+
 	// Set of relational tokens.
 	private static final EnumSet<PascalTokenType> REL_OPS =
 		EnumSet.of(EQUALS,NOT_EQUALS,LESS_THAN,LESS_EQUALS,
@@ -57,6 +57,10 @@ public class ExpressionParser extends StatementParser
 	private static final HashMap<PascalTokenType,ICodeNodeType>
 		MULT_OPS_OPS_MAP =
 			new HashMap<PascalTokenType,ICodeNodeType>();
+
+	static final EnumSet<PascalTokenType> EXPR_START_SET =
+		EnumSet.of(PLUS,MINUS,IDENTIFIER,INTEGER,REAL,STRING,
+			PascalTokenType.NOT,LEFT_PAREN);
 
 	static
 	{
