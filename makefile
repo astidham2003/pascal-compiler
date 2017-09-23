@@ -60,6 +60,13 @@ clean:
 # with the .class suffix.
 classes: $(CLASSES:.java=.class)
 
+# Generate documents with JavaDocs
+docs:
+	javadoc \
+	$(SOURCES) \
+	-overview .\\overview.html \
+	-d .\docs \
+
 scanner_test:
 	java -cp classes Pascal compile scannertest.txt
 
@@ -88,10 +95,11 @@ intermediate_error_xml:
 assignments_execute:
 	java -cp classes Pascal execute assignments.txt
 
-# Generate documents with JavaDocs
-docs:
-	javadoc \
-	$(SOURCES) \
-	-overview .\\overview.html \
-	-d .\docs \
+# Compile loops.txt.
+loops_xml:
+	java -cp classes Pascal compile -i loops.txt
+
+# Compile loops_error.txt
+loops_error_xml:
+	java -cp classes Pascal compile -i loops_error.txt
 

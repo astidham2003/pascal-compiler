@@ -11,6 +11,8 @@ import wci.frontend.Token;
 import wci.frontend.pascal.PascalParserTD;
 import wci.frontend.pascal.PascalTokenType;
 
+import wci.frontend.pascal.parsers.StatementParser;
+
 import static wci.intermediate.icodeimpl.ICodeKeyImpl.ID;
 
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.ASSIGN;
