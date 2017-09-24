@@ -25,7 +25,7 @@ import static wci.backend.interpreter.RuntimeErrorCode.
 *
 * <p>Executes an expression.</p>
 */
-public class ExpressionExecutor extends AssignmentExecutor
+public class ExpressionExecutor extends StatementExecutor
 {
 
 	// Set of arithmetic operator node types.
@@ -37,10 +37,12 @@ public class ExpressionExecutor extends AssignmentExecutor
 	*
 	* @param parent the parent executor
 	*/
-	public ExpressionExecutor(AssignmentExecutor parent)
+	public ExpressionExecutor(StatementExecutor parent)
 	{
 		super(parent);
 	}
+
+	// ----------------------------------------------------------------
 
 	/**
 	* Execute an expression.

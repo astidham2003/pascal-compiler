@@ -13,10 +13,14 @@ import wci.message.Message;
 
 import static wci.message.MessageType.SOURCE_LINE;
 
+import static wci.intermediate.icodeimpl.ICodeKeyImpl.LINE;
+
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.ASSIGN;
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.COMPOUND;
+import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.IF;
+import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.LOOP;
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.NO_OP;
-import static wci.intermediate.icodeimpl.ICodeKeyImpl.LINE;
+import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.SELECT;
 
 /**
 * <h1>StatementExecutor</h1>
@@ -62,6 +66,21 @@ public class StatementExecutor extends Executor
 			AssignmentExecutor assignmentExecutor =
 				new AssignmentExecutor(this);
 			return assignmentExecutor.execute(node);
+		}
+
+		else if (nodeType == LOOP) {
+			LoopExecutor loopExecutor = new LoopExecutor(this);
+			return loopExecutor.execute(node);
+		}
+
+		else if (nodeType == IF) {
+			IfExecutor ifExecutor = new IfExecutor(this);
+			return ifExecutor.execute(node);
+		}
+
+		else if (nodeType == SELECT) {
+			SelectExecutor selectExecutor = new SelectExecutor(this);
+			return selectExecutor.execute(node);
 		}
 
 		else if (nodeType == NO_OP) {
