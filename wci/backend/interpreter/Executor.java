@@ -23,7 +23,8 @@ public class Executor extends Backend
 	protected static int executionCount;
 	protected static RuntimeErrorHandler errorHandler;
 
-	static {
+	static
+	{
 		executionCount = 0;
 		errorHandler = new RuntimeErrorHandler();
 	}

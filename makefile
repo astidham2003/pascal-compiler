@@ -116,7 +116,15 @@ while_error_xml:
 for_xml:
 	java -cp classes Pascal compile -i for.txt
 
-# Compile for.txt
+# Compile if_error.txt
 for_error_xml:
 	java -cp classes Pascal compile -i for_error.txt
+
+# Compile if.txt
+if_xml:
+	java -cp classes Pascal compile -i if.txt
+
+# Compile if_error.txt
+if_error_xml:
+	java -cp classes Pascal compile -i if_error.txt
 

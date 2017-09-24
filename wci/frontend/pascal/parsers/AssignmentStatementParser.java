@@ -34,7 +34,8 @@ public class AssignmentStatementParser
 	private static final EnumSet<PascalTokenType> COLON_EQUALS_SET =
 		ExpressionParser.EXPR_START_SET.clone();
 	
-	static {
+	static
+	{
 		COLON_EQUALS_SET.add(COLON_EQUALS);
 		COLON_EQUALS_SET.addAll(StatementParser.STMT_FOLLOW_SET);
 	}

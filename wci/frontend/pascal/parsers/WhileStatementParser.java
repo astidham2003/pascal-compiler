@@ -26,7 +26,8 @@ public class WhileStatementParser extends StatementParser
 	private static final EnumSet<PascalTokenType> DO_SET =
 		StatementParser.STMT_START_SET.clone();
 
-	static {
+	static
+	{
 		DO_SET.add(DO);
 		// Contains UNTIL, among other tokens.
 		DO_SET.addAll(StatementParser.STMT_FOLLOW_SET);

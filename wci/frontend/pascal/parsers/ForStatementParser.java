@@ -42,7 +42,8 @@ public class ForStatementParser extends StatementParser
 	private static final EnumSet<PascalTokenType> DO_SET =
 		StatementParser.STMT_START_SET.clone();
 
-	static {
+	static
+	{
 		TO_DOWNTO_SET.add(TO);
 		TO_DOWNTO_SET.add(DOWNTO);
 		TO_DOWNTO_SET.addAll(StatementParser.STMT_FOLLOW_SET);
