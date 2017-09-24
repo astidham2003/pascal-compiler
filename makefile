@@ -128,3 +128,11 @@ if_xml:
 if_error_xml:
 	java -cp classes Pascal compile -i if_error.txt
 
+# Compile case.txt
+case_xml:
+	java -cp classes Pascal compile -i case.txt
+
+# Compile case_error.txt
+case_error_xml:
+	java -cp classes Pascal compile -i case_error.txt
+

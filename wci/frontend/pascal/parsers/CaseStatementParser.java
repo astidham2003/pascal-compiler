@@ -220,7 +220,7 @@ public class CaseStatementParser extends StatementParser
 
 			// If at the start of the next constant, then missing a
 			// comma.
-			else {
+			else if (CONSTANT_START_SET.contains(token.getType())) {
 				errorHandler.flag(token,MISSING_COMMA,this);
 			}
 		}
