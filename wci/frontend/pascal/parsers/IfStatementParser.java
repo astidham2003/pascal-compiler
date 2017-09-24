@@ -17,6 +17,11 @@ import static wci.frontend.pascal.PascalTokenType.ELSE;
 
 import static wci.frontend.pascal.PascalErrorCode.MISSING_THEN;
 
+/**
+* <h1>IfStatementParser</h1>
+*
+* <p>Root parser for IF statements.</p>
+*/
 public class IfStatementParser extends StatementParser
 {
 

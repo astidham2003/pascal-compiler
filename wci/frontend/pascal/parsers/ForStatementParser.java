@@ -31,6 +31,11 @@ import static wci.frontend.pascal.PascalErrorCode.MISSING_TO_DOWNTO;
 import static wci.frontend.pascal.PascalErrorCode.MISSING_DO;
 
 
+/**
+* <h1>ForStatementParser</h1>
+*
+* <p>Root parser for FOR statements.</p>
+*/
 public class ForStatementParser extends StatementParser
 {
 

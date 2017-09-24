@@ -12,6 +12,11 @@ import static wci.frontend.pascal.PascalTokenType.UNTIL;
 
 import static wci.frontend.pascal.PascalErrorCode.MISSING_UNTIL;
 
+/**
+* <h1>RepeatStatemetnParser</h1>
+*
+* <p>Root parser for REPEAT statements.</p>
+*/
 public class RepeatStatementParser extends StatementParser
 {
 

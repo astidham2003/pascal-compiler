@@ -19,6 +19,11 @@ import static wci.frontend.pascal.PascalTokenType.DO;
 
 import static wci.frontend.pascal.PascalErrorCode.MISSING_DO;
 
+/**
+* <h1>WhileStatementParser</h1>
+*
+* <p>Root parser for WHILE statements.</p>
+*/
 public class WhileStatementParser extends StatementParser
 {
 

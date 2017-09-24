@@ -29,6 +29,8 @@ import static wci.frontend.pascal.PascalErrorCode.UNEXPECTED_TOKEN;
 
 /**
 * <h1>ExpressionParser</h1>
+*
+* <p>Root parser for expressions.</p>
 */
 public class ExpressionParser extends StatementParser
 {
