@@ -13,6 +13,10 @@ import wci.frontend.EofToken;
 import wci.frontend.pascal.PascalTokenType;
 
 import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.SELECT;
+import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.
+	SELECT_BRANCH;
+import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.
+	SELECT_CONSTANTS;
 
 import static wci.frontend.pascal.PascalTokenType.IDENTIFIER;
 import static wci.frontend.pascal.PascalTokenType.INTEGER;
@@ -22,10 +26,12 @@ import static wci.frontend.pascal.PascalTokenType.STRING;
 import static wci.frontend.pascal.PascalTokenType.OF;
 import static wci.frontend.pascal.PascalTokenType.END;
 import static wci.frontend.pascal.PascalTokenType.SEMICOLON;
+import static wci.frontend.pascal.PascalTokenType.COLON;
 
 import static wci.frontend.pascal.PascalErrorCode.MISSING_OF;
 import static wci.frontend.pascal.PascalErrorCode.MISSING_SEMICOLON;
 import static wci.frontend.pascal.PascalErrorCode.MISSING_END;
+import static wci.frontend.pascal.PascalErrorCode.MISSING_COLON;
 
 /**
 * <h1>CaseStatementParser</p>
@@ -136,9 +142,50 @@ public class CaseStatementParser extends StatementParser
 	* @throws Exception
 	*/
 	private ICodeNode parseBranch(
-		Token token,HashSet<Object> constantSet)
+		Token token,HashSet<Object> constantSet) throws Exception
 	{
-		return null;
+		// Create a SELECT_BRANCH node and a SELECT_CONSTANTS node.
+		// The SELECT_BRANCH node adopts the SELECT_CONSTANTS node
+		// as its first child.
+		ICodeNode branchNode =
+			ICodeFactory.createICodeNode(SELECT_BRANCH);
+		ICodeNode constantsNode =
+			ICodeFactory.createICodeNode(SELECT_CONSTANTS);
+		branchNode.addChild(constantsNode);
+
+		// Parse the list of CASE branch constants.
+		// The SELECT_CONSTANTS node adopts each constant.
+		parseConstantList(token,constantsNode,constantSet);
+
+		// Look for the : token.
+		token = currentToken();
+		if (token.getType() == COLON) {
+			token = nextToken(); // Consume the colon.
+		}
+		else {
+			errorHandler.flag(token,MISSING_COLON,this);
+		}
+
+		// Parse the CASE branch statement.  The SELECT_BRANCH node
+		// adopts the statement subtree as its second child.
+		StatementParser statementParser = new StatementParser(this);
+		branchNode.addChild(statementParser.parse(token));
+
+		return branchNode;
+	}
+
+	/**
+	* Parse a list of constants.
+	*
+	* @param token the initial token
+	* @param constantsNode the root node of the list
+	* @param constantSet // XXX
+	*/
+	private void parseConstantList(
+		Token token,ICodeNode constantsNode,
+		HashSet<Object> constantSet)
+	{
+		// XXX
 	}
 }
 
