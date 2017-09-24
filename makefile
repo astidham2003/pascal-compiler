@@ -140,3 +140,7 @@ case_error_xml:
 loops_execute:
 	java -cp classes Pascal execute loops.txt
 
+# Compile if.txt
+if_execute:
+	java -cp classes Pascal execute if.txt
+

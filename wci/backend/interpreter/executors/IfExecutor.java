@@ -1,5 +1,7 @@
 package wci.backend.interpreter.executors;
 
+import java.util.List;
+
 import wci.intermediate.ICodeNode;
 
 /**
@@ -31,6 +33,30 @@ public class IfExecutor extends StatementExecutor
 	@Override
 	public Object execute(ICodeNode node)
 	{
+
+		// Get the IF node's children.
+		List<ICodeNode> children = node.getChildren();
+		ICodeNode expr = children.get(0);
+		ICodeNode thenStmtNode = children.get(1);
+		ICodeNode elseStmtNode =
+			children.size() > 2 ? children.get(2) : null;
+
+		ExpressionExecutor expressionExecutor =
+			new ExpressionExecutor(this);
+		StatementExecutor statementExecutor =
+			new StatementExecutor(this);
+
+		// Evaluate the expression to determine which statement to
+		// execute.
+		boolean b = (Boolean) expressionExecutor.execute(expr);
+		if (b) {
+			statementExecutor.execute(thenStmtNode);
+		}
+		else if (elseStmtNode != null) {
+			statementExecutor.execute(elseStmtNode);
+		}
+
+		++executionCount;
 		return null;
 	}
 }
