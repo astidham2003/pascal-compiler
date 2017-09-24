@@ -1,6 +1,7 @@
 package wci.backend.interpreter.executors;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import wci.intermediate.ICodeNode;
 
@@ -13,6 +14,13 @@ import static wci.intermediate.icodeimpl.ICodeKeyImpl.VALUE;
 */
 public class SelectExecutor extends StatementExecutor
 {
+
+	// Jump table cache: entry key is a SELECT node.
+	//                   entry  value is the jump table.
+	// Jump table: entry key is a selection value,
+	//             entry value is the branch statement.
+	private static HashMap<ICodeNode,HashMap<Object,ICodeNode>>
+		jumpCache = new HashMap<ICodeNode,HashMap<Object,ICodeNode>>();
 
 	/**
 	* Constructor.
@@ -35,6 +43,14 @@ public class SelectExecutor extends StatementExecutor
 	@Override
 	public Object execute(ICodeNode node)
 	{
+		// Is there an entry for this SELECT node in the jump table
+		// cache?  If not, then create a jump table cache entry.
+		HashMap<Object,ICodeNode> jumpTable = jumpCache.get(node);
+		if (jumpTable == null) {
+			jumpTable = createJumpTable(node);
+			jumpCache.put(node,jumpTable);
+		}
+
 		// Get the SELECT node's children.
 		ArrayList<ICodeNode> selectChildren = node.getChildren();
 		ICodeNode exprNode = selectChildren.get(0);
@@ -45,45 +61,50 @@ public class SelectExecutor extends StatementExecutor
 			new ExpressionExecutor(this);
 		Object selectValue = expressionExecutor.execute(exprNode);
 
-		// Attempt to select a SELECT_BRANCH.
-		ICodeNode selectedBranchNode =
-			searchBranches(selectValue,selectChildren);
-
-		// If there was a selection, then execute the SELECT_BRANCH's
+		// If there is a selection, then execute the SELECT_BRANCH's,
 		// statement.
-		if (selectedBranchNode != null) {
-			ICodeNode stmtNode =
-				selectedBranchNode.getChildren().get(1);
+		ICodeNode statementNode = jumpTable.get(selectValue);
+		if (statementNode != null) {
 			StatementExecutor statementExecutor =
 				new StatementExecutor(this);
-			statementExecutor.execute(stmtNode);
+			statementExecutor.execute(statementNode);
 		}
 
-		++executionCount;
+		++executionCount; // Count the SELECT statement itself.
 		return null;
 	}
 
 	/**
-	* Search the SELECT_BRANCHs to find a match.
+	* Create a jump table for a SELECT node.
 	*
-	* @param selectValue the value to match
-	* @param selectChildren the children of the SELECT node
-	* @return the matching SELECT_BRANCH node if any, else null
+	* @param node the SELECT node
+	* @return the jump table
 	*/
-	private ICodeNode searchBranches(
-		Object selectValue,ArrayList<ICodeNode> selectChildren)
+	private HashMap<Object,ICodeNode> createJumpTable(ICodeNode node)
 	{
+		HashMap<Object,ICodeNode> jumpTable =
+			new HashMap<Object,ICodeNode>();
 
-		// Loop over the SELECT_BRANCHs to find a match.
+		// Loop over children that are SELECT_BRANCH nodes.
+		ArrayList<ICodeNode> selectChildren = node.getChildren();
 		for (int i = 1; i < selectChildren.size(); ++i) {
 			ICodeNode branchNode = selectChildren.get(i);
+			ICodeNode constantsNode = branchNode.getChildren().get(0);
+			ICodeNode statementNode = branchNode.getChildren().get(1);
 
-			if (searchConstants(selectValue,branchNode)) {
-				return branchNode;
+			// Loop over the constants children of the branch's
+			// CONSTANTS_NODE.
+			ArrayList<ICodeNode> constantsList =
+				constantsNode.getChildren();
+			for (ICodeNode constantNode : constantsList) {
+
+				// Create a jump table entry.
+				Object value = constantNode.getAttribute(VALUE);
+				jumpTable.put(value,statementNode);
 			}
 		}
 
-		return null;
+		return jumpTable;
 	}
 
 	/**
