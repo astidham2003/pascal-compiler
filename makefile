@@ -136,11 +136,15 @@ case_xml:
 case_error_xml:
 	java -cp classes Pascal compile -i case_error.txt
 
-# Execute loop.txt.
+# Execute loops.txt.
 loops_execute:
 	java -cp classes Pascal execute loops.txt
 
 # Compile if.txt
 if_execute:
 	java -cp classes Pascal execute if.txt
+
+# Compile if.txt
+case_execute:
+	java -cp classes Pascal execute case.txt
 
