@@ -3,6 +3,7 @@ package wci.intermediate.symtabimpl;
 import java.util.ArrayList;
 
 import wci.intermediate.*;
+
 import wci.intermediate.symtabimpl.*;
 
 import static wci.intermediate.symtabimpl.SymTabKeyImpl.*;
@@ -20,17 +21,18 @@ public class Predefined
 {
 
 	// Predefined types.
-	public static TypeSpec integerType;
-	public static TypeSpec realType;
 	public static TypeSpec booleanType;
 	public static TypeSpec charType;
+	public static TypeSpec integerType;
+	public static TypeSpec realType;
 	public static TypeSpec undefinedType;
 
 	// Predefined identifiers.
-	public static SymTabEntry integerID;
-	public static SymTabEntry realId;
 	public static SymTabEntry booleanId;
+	public static SymTabEntry charId;
 	public static SymTabEntry falseId;
+	public static SymTabEntry integerId;
+	public static SymTabEntry realId;
 	public static SymTabEntry trueId;
 
 	/**

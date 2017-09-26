@@ -46,7 +46,7 @@ public class TypeSpecImpl
 		TypeSpec indexType = new TypeSpecImpl(SUBRANGE);
 
 		indexType.setAttribute(
-			SUBRANGE_BASE_TYPE,Predifined.integerType)
+			SUBRANGE_BASE_TYPE,Predefined.integerType);
 		indexType.setAttribute(SUBRANGE_MIN_VALUE,1);
 		indexType.setAttribute(SUBRANGE_MAX_VALUE,value.length());
 
@@ -55,15 +55,54 @@ public class TypeSpecImpl
 		setAttribute(ARRAY_ELEMENT_COUNT,value.length());
 	}
 
+	// ----------------------------------------------------------------
+
+
+	/**
+	* Getter
+	*
+	* @return the type form
+	*/
+	@Override
+	public TypeForm getForm()
+	{
+		return form;
+	}
+
+	/**
+	* Setter
+	*
+	* @param identifier the type identifier (symbol table entry)
+	*/
+	@Override
+	public void setIdentifier(SymTabEntry identifier)
+	{
+		this.identifier = identifier;
+	}
+
+	/**
+	* Getter
+	*
+	* @return the type identifier (symbol table entry)
+	*/
+	@Override
+	public SymTabEntry getIdentifier()
+	{
+		return identifier;
+	}
+
+
 	/**
 	* Set an attribute of the specification.
 	*
 	* @param key the attribute key
 	* @param value the attibute value
 	*/
-	public void setAttribute(TypeKey key,Object value)
+	@Override
+	public Object setAttribute(TypeKey key,Object value)
 	{
 		this.put(key,value);
+		return value;
 	}
 
 	/**
@@ -72,14 +111,16 @@ public class TypeSpecImpl
 	* @param key the attribute key
 	* @return the attribute value
 	*/
+	@Override
 	public Object getAttribute(TypeKey key)
 	{
-		return this.(key);
+		return this.get(key);
 	}
 
 	/**
 	* @return true if this is a Pascal string type.
 	*/
+	@Override
 	public boolean isPascalString()
 	{
 		// Pascal string is an array of char.
@@ -90,7 +131,7 @@ public class TypeSpecImpl
 				(TypeSpec) getAttribute(ARRAY_INDEX_TYPE);
 
 			return (elmtType.baseType() == Predefined.charType &&
-				(indexType.baseType() == Predefined.integerType);
+				indexType.baseType() == Predefined.integerType);
 		}
 		else {
 			return false;
@@ -98,16 +139,9 @@ public class TypeSpecImpl
 	}
 
 	/**
-	* @return the attribute with the given key
-	*/
-	public Object getAttribute(TypeKey key)
-	{
-		return this.get(key);
-	}
-
-	/**
 	* @return the base type of this type
 	*/
+	@Override
 	public TypeSpec baseType()
 	{
 		return (TypeFormImpl) form == SUBRANGE ?

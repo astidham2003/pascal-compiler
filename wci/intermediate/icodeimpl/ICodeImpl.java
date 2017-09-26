@@ -11,6 +11,13 @@ public class ICodeImpl implements ICode
 
 	private ICodeNode root;
 
+	/**
+	* Constuctor.
+	*/
+	public ICodeImpl()
+	{
+	}
+
 	// ----------------------------------------------------------------
 	// ICode methods
 

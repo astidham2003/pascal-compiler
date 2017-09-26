@@ -2,9 +2,6 @@ package wci.frontend.pascal.parsers;
 
 import java.util.EnumSet;
 
-import wci.intermediate.ICodeNode;
-import wci.intermediate.ICodeFactory;
-
 import wci.frontend.Token;
 import wci.frontend.TokenType;
 import wci.frontend.EofToken;
@@ -13,15 +10,16 @@ import wci.frontend.pascal.PascalParserTD;
 import wci.frontend.pascal.PascalErrorCode;
 import wci.frontend.pascal.PascalTokenType;
 
-import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.NO_OP;
-
-import static wci.intermediate.icodeimpl.ICodeKeyImpl.LINE;
+import wci.intermediate.ICodeNode;
+import wci.intermediate.ICodeFactory;
 
 import static wci.frontend.pascal.PascalTokenType.*;
 
 import static wci.frontend.pascal.PascalErrorCode.MISSING_SEMICOLON;
 
+import static wci.intermediate.icodeimpl.ICodeNodeTypeImpl.NO_OP;
 
+import static wci.intermediate.icodeimpl.ICodeKeyImpl.LINE;
 
 /**
 * <h1>StatementParser</h1>
@@ -50,6 +48,8 @@ public class StatementParser extends PascalParserTD
 	{
 		super(parent);
 	}
+
+	// ----------------------------------------------------------------
 
 	/**
 	* Parse a statement.
