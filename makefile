@@ -32,9 +32,6 @@ SOURCES = \
 	.\\wci\\util\\*.java
 
 CLASSES = \
-	.\\wci\\intermediate\\TypeSpec.java \
-	.\\wci\\intermediate\\typeimpl\\TypeFormImpl.java \
-	.\\wci\\intermediate\\typeimpl\\TypeKeyImpl.java \
 	.\\Pascal.java
 
 # RM is a predefined macro in make (RM = rm -f)
