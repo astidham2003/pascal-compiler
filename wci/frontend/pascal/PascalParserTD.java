@@ -7,6 +7,7 @@ import wci.frontend.*;
 import wci.frontend.pascal.parsers.StatementParser;
 import wci.frontend.pascal.parsers.BlockParser;
 
+import wci.intermediate.ICode;
 import wci.intermediate.ICodeFactory;
 import wci.intermediate.ICodeNode;
 import wci.intermediate.SymTabEntry;
@@ -67,6 +68,30 @@ public class PascalParserTD extends Parser
 	// ----------------------------------------------------------------
 
 	/**
+	* Getter.
+	*
+	* @return the generated intermediate code
+	*/
+	@Override
+	public ICode getICode()
+	{
+		return (ICode) routineId.getAttribute(ROUTINE_ICODE);
+	}
+
+	/**
+	* The number of errors found by this parser.
+	*
+	* @return the number of syntax errors found by the parser
+	*/
+	@Override
+	public int getErrorCount()
+	{
+		return errorHandler.getErrorCount();
+	}
+
+	// ----------------------------------------------------------------
+
+	/**
 	* Synchronize the parser.
 	* 
 	* @param syncSet the set of token types for synchronizing the
@@ -107,7 +132,7 @@ public class PascalParserTD extends Parser
 	public void parse() throws Exception
 	{
 		long t0 = System.currentTimeMillis();
-		iCode = ICodeFactory.createICode();
+		ICode iCode = ICodeFactory.createICode();
 		Predefined.initialize(symTabStack);
 
 		// Create a dummy program idenifier symbol table entry.
@@ -136,6 +161,7 @@ public class PascalParserTD extends Parser
 			if (token.getType() != DOT) {
 				errorHandler.flag(token,MISSING_PERIOD,this);
 			}
+			// XXX Why do this a second time?
 			token = currentToken();
 
 			// Send the parser summary message.
@@ -152,17 +178,6 @@ public class PascalParserTD extends Parser
 		catch (java.io.IOException e) {
 			errorHandler.abortTranslation(IO_ERROR,this);
 		}
-	}
-
-	/**
-	* The number of errors found by this parser.
-	*
-	* @return the number of syntax errors found by the parser
-	*/
-	@Override
-	public int getErrorCount()
-	{
-		return errorHandler.getErrorCount();
 	}
 
 }
