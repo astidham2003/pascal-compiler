@@ -57,7 +57,7 @@ public class DeclarationsParser extends PascalParserTD
 	* subclasses.
 	*
 	* @param token the initial token
-	* @return the root node of the parse tree
+	* @throws Exception
 	*/
 	public void parse(Token token) throws Exception
 	{
