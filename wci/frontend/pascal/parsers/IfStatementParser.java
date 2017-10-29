@@ -26,12 +26,14 @@ public class IfStatementParser extends StatementParser
 {
 
 	// Synchronization set for THEN.
-	private static final EnumSet<PascalTokenType> THEN_SET =
-		StatementParser.STMT_START_SET.clone();
+	private static final EnumSet<PascalTokenType> THEN_SET;
 
 	static
 	{
+		THEN_SET = StatementParser.STMT_START_SET.clone();
 		THEN_SET.add(THEN);
+		// BEGIN,CASE,FOR,IF,REPEAT,WHILE,IDENTIFIER,SEMICOLON,THEN,
+		// END,ELSE,UNTIL,DOT
 		THEN_SET.addAll(StatementParser.STMT_FOLLOW_SET);
 	}
 

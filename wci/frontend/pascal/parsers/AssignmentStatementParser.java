@@ -31,12 +31,14 @@ public class AssignmentStatementParser
 {
 
 	// Synchronization set for the := token.
-	private static final EnumSet<PascalTokenType> COLON_EQUALS_SET =
-		ExpressionParser.EXPR_START_SET.clone();
+	private static final EnumSet<PascalTokenType> COLON_EQUALS_SET;
 	
 	static
 	{
+		COLON_EQUALS_SET = ExpressionParser.EXPR_START_SET.clone();
 		COLON_EQUALS_SET.add(COLON_EQUALS);
+		// PLUS,MINUS,IDENTIFIER,INTEGER,REAL,STRING,NOT,LEFT_PAREN,
+		// COLON_EQUALS,SEMICOLON,END,ELSE,UNTIL,DOT
 		COLON_EQUALS_SET.addAll(StatementParser.STMT_FOLLOW_SET);
 	}
 

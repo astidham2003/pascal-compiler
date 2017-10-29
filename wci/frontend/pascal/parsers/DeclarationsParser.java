@@ -21,21 +21,29 @@ import static wci.intermediate.symtabimpl.DefinitionImpl.VARIABLE;
 public class DeclarationsParser extends PascalParserTD
 {
 
-	static final EnumSet<PascalTokenType> DECLARATION_START_SET =
-		EnumSet.of(CONST,TYPE,VAR,PROCEDURE,FUNCTION,BEGIN);
+	static final EnumSet<PascalTokenType> DECLARATION_START_SET;
 
-	static final EnumSet<PascalTokenType> TYPE_START_SET =
-		DECLARATION_START_SET.clone();
+	static final EnumSet<PascalTokenType> TYPE_START_SET;
 
-	static final EnumSet<PascalTokenType> VAR_START_SET =
-		TYPE_START_SET.clone();
+	static final EnumSet<PascalTokenType> VAR_START_SET;
 
-	static final EnumSet<PascalTokenType> ROUTINE_START_SET =
-		VAR_START_SET.clone();
+	static final EnumSet<PascalTokenType> ROUTINE_START_SET;
 
-	static {
+	static
+	{
+		DECLARATION_START_SET =
+			EnumSet.of(CONST,TYPE,VAR,PROCEDURE,FUNCTION,BEGIN);
+
+		TYPE_START_SET = DECLARATION_START_SET.clone();
+		// TYPE,VAR,PROCEDURE,FUNCTION,BEGIN
 		TYPE_START_SET.remove(CONST);
+
+		VAR_START_SET = TYPE_START_SET.clone();
+		// VAR,PROCEDURE,FUNCTION,BEGIN
 		VAR_START_SET.remove(TYPE);
+
+		ROUTINE_START_SET = VAR_START_SET.clone();
+		// PROCEDURE,FUNCTION,BEGIN
 		ROUTINE_START_SET.remove(VAR);
 	}
 

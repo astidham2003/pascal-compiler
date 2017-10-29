@@ -40,19 +40,24 @@ public class ForStatementParser extends StatementParser
 {
 
 	// Synchronization set for TO or DOWNTO.
-	static final EnumSet<PascalTokenType> TO_DOWNTO_SET =
-		ExpressionParser.EXPR_START_SET.clone();
+	static final EnumSet<PascalTokenType> TO_DOWNTO_SET;
 
 	// Synchroniztion set for DO.
-	private static final EnumSet<PascalTokenType> DO_SET =
-		StatementParser.STMT_START_SET.clone();
+	private static final EnumSet<PascalTokenType> DO_SET;
 
 	static
 	{
+		TO_DOWNTO_SET = ExpressionParser.EXPR_START_SET.clone();
 		TO_DOWNTO_SET.add(TO);
 		TO_DOWNTO_SET.add(DOWNTO);
+		// PLUS,MINUS,IDENTIFIER,INTEGER,REAL,STRING,TO,DOWNTO,
+		// SEMICOLON,END,ELSE,UNTIL,DOT
 		TO_DOWNTO_SET.addAll(StatementParser.STMT_FOLLOW_SET);
+
+		DO_SET = StatementParser.STMT_START_SET.clone();
 		DO_SET.add(DO);
+		// BEGIN,CASE,FOR,IF,REPEAT,WHILE,IDENTIFIER,SEMICOLON,DO,
+		// SEMICOLON,END,ELSE,UNTIL,DOT
 		DO_SET.addAll(StatementParser.STMT_FOLLOW_SET);
 	}
 

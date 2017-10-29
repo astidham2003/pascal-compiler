@@ -28,13 +28,14 @@ public class WhileStatementParser extends StatementParser
 {
 
 	// Synchronization set for DO.
-	private static final EnumSet<PascalTokenType> DO_SET =
-		StatementParser.STMT_START_SET.clone();
+	private static final EnumSet<PascalTokenType> DO_SET;
 
 	static
 	{
+		DO_SET = StatementParser.STMT_START_SET.clone();
 		DO_SET.add(DO);
-		// Contains UNTIL, among other tokens.
+		// BEGIN,CASE,FOR,IF,REPEAT,WHILE,IDENTIFIER,SEMICOLON,DO,
+		// END,ELSE,UNTIL,DOT
 		DO_SET.addAll(StatementParser.STMT_FOLLOW_SET);
 	}
 

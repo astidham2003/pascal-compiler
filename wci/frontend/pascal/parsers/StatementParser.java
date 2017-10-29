@@ -31,13 +31,18 @@ public class StatementParser extends PascalParserTD
 
 	// Synchronization set for starting a statement.  Contains
 	// SEMICOLON to handle an empty statement.
-	protected static final EnumSet<PascalTokenType> STMT_START_SET =
-		EnumSet.of(BEGIN,CASE,FOR,PascalTokenType.IF,REPEAT,WHILE,
-			IDENTIFIER,SEMICOLON);
+	protected static final EnumSet<PascalTokenType> STMT_START_SET;
 	
 	// Synchronization set for following a statement.
-	protected static final EnumSet<PascalTokenType> STMT_FOLLOW_SET =
-		EnumSet.of(SEMICOLON,END,ELSE,UNTIL,DOT);
+	protected static final EnumSet<PascalTokenType> STMT_FOLLOW_SET;
+
+	static
+	{
+		STMT_START_SET =
+			EnumSet.of(BEGIN,CASE,FOR,PascalTokenType.IF,REPEAT,WHILE,
+				IDENTIFIER,SEMICOLON);
+		STMT_FOLLOW_SET = EnumSet.of(SEMICOLON,END,ELSE,UNTIL,DOT);
+	}
 
 	/**
 	* Constructor.

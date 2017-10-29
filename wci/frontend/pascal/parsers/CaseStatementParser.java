@@ -52,24 +52,31 @@ public class CaseStatementParser extends StatementParser
 {
 
 	// Synchronization set for stating CASE option statement.
-	private static final EnumSet<PascalTokenType> CONSTANT_START_SET =
-		EnumSet.of(IDENTIFIER,INTEGER,PLUS,MINUS,STRING);
+	private static final EnumSet<PascalTokenType> CONSTANT_START_SET;
 
 	// Synchonization set for OF.
-	private static final EnumSet<PascalTokenType> OF_SET =
-		CONSTANT_START_SET.clone();
+	private static final EnumSet<PascalTokenType> OF_SET;
 
 	// Synchronization set for COMMA.
-	private static final EnumSet<PascalTokenType> COMMA_SET =
-		CONSTANT_START_SET.clone();
+	private static final EnumSet<PascalTokenType> COMMA_SET;
+
 	static
 	{
+		CONSTANT_START_SET =
+			EnumSet.of(IDENTIFIER,INTEGER,PLUS,MINUS,STRING);
+
+		OF_SET = CONSTANT_START_SET.clone();
 		OF_SET.add(OF);
+		// IDENTIFIER,INTEGER,PLUS,MINUS,STRING,OF,
+		// SEMICOLON,END,ELSE,UNTIL,DOT
 		OF_SET.addAll(StatementParser.STMT_FOLLOW_SET);
 
+		COMMA_SET = CONSTANT_START_SET.clone();
 		COMMA_SET.add(COMMA);
 		COMMA_SET.add(COLON);
 		COMMA_SET.addAll(StatementParser.STMT_START_SET);
+		// IDENTIFIER,INTEGER,PLUS,MINUS,STRING,COMMA,COLON,
+		// BEGIN,CASE,FOR,IF,REPEAT,WHILE, SEMICOLON,END,ELSE,UNTIL,DOT
 		COMMA_SET.addAll(StatementParser.STMT_FOLLOW_SET);
 	}
 

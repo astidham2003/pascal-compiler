@@ -36,35 +36,39 @@ public class ExpressionParser extends StatementParser
 {
 
 	// Set of relational tokens.
-	private static final EnumSet<PascalTokenType> REL_OPS =
-		EnumSet.of(EQUALS,NOT_EQUALS,LESS_THAN,LESS_EQUALS,
-			GREATER_THAN,GREATER_EQUALS);
+	private static final EnumSet<PascalTokenType> REL_OPS;
 	// Map relational operator tokens to node types.
 	private static final HashMap<PascalTokenType,ICodeNodeType>
-		REL_OPS_MAP = new HashMap<PascalTokenType,ICodeNodeType>();
+		REL_OPS_MAP;
 
 	// Set of additive tokens.
-	private static final EnumSet<PascalTokenType> ADD_OPS =
-		EnumSet.of(PLUS,MINUS,PascalTokenType.OR);
+	private static final EnumSet<PascalTokenType> ADD_OPS;
 	// Map additive operator tokens to node types.
 	private static final HashMap<PascalTokenType,ICodeNodeType>
-		ADD_OPS_OPS_MAP = new HashMap<PascalTokenType,ICodeNodeType>();
+		ADD_OPS_MAP;
 
 	// Set of multiplicative tokens.
-	private static final EnumSet<PascalTokenType> MULT_OPS =
-		EnumSet.of(STAR,SLASH,DIV,PascalTokenType.MOD,
-			PascalTokenType.AND);
+	private static final EnumSet<PascalTokenType> MULT_OPS;
 	// Map multiplicative tokens to node types.
 	private static final HashMap<PascalTokenType,ICodeNodeType>
-		MULT_OPS_OPS_MAP =
-			new HashMap<PascalTokenType,ICodeNodeType>();
+		MULT_OPS_MAP;
 
-	static final EnumSet<PascalTokenType> EXPR_START_SET =
-		EnumSet.of(PLUS,MINUS,IDENTIFIER,INTEGER,REAL,STRING,
-			PascalTokenType.NOT,LEFT_PAREN);
+	static final EnumSet<PascalTokenType> EXPR_START_SET;
 
 	static
 	{
+		REL_OPS =
+			EnumSet.of(EQUALS,NOT_EQUALS,LESS_THAN,LESS_EQUALS,
+				GREATER_THAN,GREATER_EQUALS);
+		ADD_OPS = EnumSet.of(PLUS,MINUS,PascalTokenType.OR);
+		MULT_OPS =
+			EnumSet.of(STAR,SLASH,DIV,PascalTokenType.MOD,
+				PascalTokenType.AND);
+		EXPR_START_SET =
+			EnumSet.of(PLUS,MINUS,IDENTIFIER,INTEGER,REAL,STRING,
+				PascalTokenType.NOT,LEFT_PAREN);
+
+		REL_OPS_MAP = new HashMap<PascalTokenType,ICodeNodeType>();
 		REL_OPS_MAP.put(EQUALS,EQ);
 		REL_OPS_MAP.put(NOT_EQUALS,NE);
 		REL_OPS_MAP.put(LESS_THAN,LT);
@@ -72,17 +76,19 @@ public class ExpressionParser extends StatementParser
 		REL_OPS_MAP.put(GREATER_THAN,GT);
 		REL_OPS_MAP.put(GREATER_EQUALS,GE);
 
-		ADD_OPS_OPS_MAP.put(PLUS,ADD);
-		ADD_OPS_OPS_MAP.put(MINUS,SUBTRACT);
-		ADD_OPS_OPS_MAP.put(
+		ADD_OPS_MAP = new HashMap<PascalTokenType,ICodeNodeType>();
+		ADD_OPS_MAP.put(PLUS,ADD);
+		ADD_OPS_MAP.put(MINUS,SUBTRACT);
+		ADD_OPS_MAP.put(
 			PascalTokenType.OR,ICodeNodeTypeImpl.OR);
 
-		MULT_OPS_OPS_MAP.put(STAR,MULTIPLY);
-		MULT_OPS_OPS_MAP.put(SLASH,FLOAT_DIVIDE);
-		MULT_OPS_OPS_MAP.put(DIV,INTEGER_DIVIDE);
-		MULT_OPS_OPS_MAP.put(
+		MULT_OPS_MAP = new HashMap<PascalTokenType,ICodeNodeType>();
+		MULT_OPS_MAP.put(STAR,MULTIPLY);
+		MULT_OPS_MAP.put(SLASH,FLOAT_DIVIDE);
+		MULT_OPS_MAP.put(DIV,INTEGER_DIVIDE);
+		MULT_OPS_MAP.put(
 			PascalTokenType.AND,ICodeNodeTypeImpl.AND);
-		MULT_OPS_OPS_MAP.put(
+		MULT_OPS_MAP.put(
 			PascalTokenType.MOD,ICodeNodeTypeImpl.MOD);
 	}
 
@@ -193,7 +199,7 @@ public class ExpressionParser extends StatementParser
 
 			// Create a new operator node and adopt the current tree
 			// as its first child.
-			ICodeNodeType nodeType = ADD_OPS_OPS_MAP.get(tokenType);
+			ICodeNodeType nodeType = ADD_OPS_MAP.get(tokenType);
 			ICodeNode opNode =
 				ICodeFactory.createICodeNode(nodeType);
 			opNode.addChild(rootNode);
@@ -239,7 +245,7 @@ public class ExpressionParser extends StatementParser
 			// XXX made.
 			// Create a new operator node and adopt the current tree
 			// as its first child.
-			ICodeNodeType nodeType = MULT_OPS_OPS_MAP.get(tokenType);
+			ICodeNodeType nodeType = MULT_OPS_MAP.get(tokenType);
 			ICodeNode opNode = ICodeFactory.createICodeNode(nodeType);
 			opNode.addChild(rootNode);
 
