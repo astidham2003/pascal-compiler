@@ -3,11 +3,23 @@ package wci.frontend.pascal.parsers;
 import java.util.EnumSet;
 
 import wci.frontend.Token;
+import wci.frontend.TokenType;
 
 import wci.frontend.pascal.PascalParserTD;
 import wci.frontend.pascal.PascalTokenType;
 
+import wci.intermediate.TypeSpec;
+import wci.intermediate.SymTabEntry;
+
 import static wci.frontend.pascal.PascalTokenType.*;
+
+import static wci.frontend.pascal.PascalErrorCode.MISSING_EQUALS;
+import static wci.frontend.pascal.PascalErrorCode.MISSING_SEMICOLON;
+import static wci.frontend.pascal.PascalErrorCode.IDENTIFIER_REDEFINED;
+
+import static wci.intermediate.symtabimpl.DefinitionImpl.CONSTANT;
+
+import static wci.intermediate.symtabimpl.SymTabKeyImpl.CONSTANT_VALUE;
 
 /**
 * <h1>ConstantDefinitionsParser</h1>
@@ -65,7 +77,94 @@ public class ConstantDefinitionsParser extends PascalParserTD
 	*/
 	public void parse(Token token) throws Exception
 	{
-		throw new Exception("Not implemented");
+		token = synchronize(IDENTIFIER_SET);
+
+		// Loop to parse a sequence of constant definitions
+		// separated by sewmicolons.
+		while (token.getType() == IDENTIFIER) {
+			String name = token.getText().toLowerCase();
+			SymTabEntry constantId = symTabStack.lookupLocal(name);
+
+			// Enter the new identifier into the symbol table
+			// but don't set how it's defined, yet.
+			if (constantId == null) {
+				constantId = symTabStack.enterLocal(name);
+				constantId.appendLineNumber(token.getLineNumber());
+			}
+			else {
+				errorHandler.flag(token,IDENTIFIER_REDEFINED,this);
+				constantId = null;
+			}
+
+			token = nextToken();  // Consume the identifier token.
+
+			// Synchronize on the = token.
+			token = synchronize(EQUALS_SET);
+			if (token.getType() == EQUALS) {
+				token = nextToken(); // Consume the =.
+			}
+			else {
+				errorHandler.flag(token,MISSING_EQUALS,this);
+			}
+
+			// Parse the constant value.
+			Token constantToken = token;
+			Object value = parseConstant(token);
+
+			// Set identifier to be a constant and set its value.
+			if (constantId != null) {
+				constantId.setDefinition(CONSTANT);
+				constantId.setAttribute(CONSTANT_VALUE,value);
+
+				// Set the constant's type.
+				TypeSpec constantType =
+					constantToken.getType() == IDENTIFIER ?
+						getConstantType(constantToken) :
+						getConstantType(value);
+				constantId.setTypeSpec(constantType);
+			}
+
+			token = currentToken();
+			TokenType tokenType = token.getType();
+
+			// Look for one or more semicolons after a definition.
+			if (tokenType == SEMICOLON) {
+				while (tokenType == SEMICOLON) {
+					token = nextToken(); // Consume the ;.
+				}
+			}
+			// If at the start of the next definition of declaration,
+			// then missing a semicolon.
+			else {
+				errorHandler.flag(token,MISSING_SEMICOLON,this);
+			}
+
+			token = synchronize(IDENTIFIER_SET);
+		}
+	}
+
+	/**
+	* Parse a constant value.
+	*
+	* @param token the current token
+	* @return the constant value
+	* @throws Exception
+	*/
+	protected Object parseConstant(Token token) throws Exception
+	{
+		throw new Exception("Not implemented.");
+	}
+
+	/**
+	* Return the type of a constant given its value.
+	*
+	* @param value the constant value
+	* @return the type specification
+	*/
+	protected TypeSpec getConstantType(Object value)
+	{
+		// XXX
+		return null;
 	}
 }
 
