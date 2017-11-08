@@ -57,7 +57,6 @@ public class Pascal
 		try (Source source = new Source(
 					new BufferedReader(
 						new FileReader(filePath)))) {
-			// XXX Not used?
 			boolean intermediate = flags.indexOf('i') > -1;
 			boolean xref = flags.indexOf('x') > -1;
 

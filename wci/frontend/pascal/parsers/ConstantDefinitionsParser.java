@@ -10,15 +10,21 @@ import wci.frontend.pascal.PascalTokenType;
 
 import wci.intermediate.TypeSpec;
 import wci.intermediate.SymTabEntry;
+import wci.intermediate.Definition;
 
 import static wci.frontend.pascal.PascalTokenType.*;
 
 import static wci.frontend.pascal.PascalErrorCode.MISSING_EQUALS;
 import static wci.frontend.pascal.PascalErrorCode.MISSING_SEMICOLON;
 import static wci.frontend.pascal.PascalErrorCode.IDENTIFIER_REDEFINED;
+import static wci.frontend.pascal.PascalErrorCode.IDENTIFIER_UNDEFINED;
 import static wci.frontend.pascal.PascalErrorCode.INVALID_CONSTANT;
+import static wci.frontend.pascal.PascalErrorCode.
+	NOT_CONSTANT_IDENTIFIER;
 
 import static wci.intermediate.symtabimpl.DefinitionImpl.CONSTANT;
+import static wci.intermediate.symtabimpl.DefinitionImpl.
+	ENUMERATION_CONSTANT;
 
 import static wci.intermediate.symtabimpl.SymTabKeyImpl.CONSTANT_VALUE;
 
@@ -197,10 +203,70 @@ public class ConstantDefinitionsParser extends PascalParserTD
 		}
 	}
 
+	/**
+	* Parse an identifier constant.
+	*
+	* @param token the current token
+	* @param sign the sign, if any
+	* @return Object the constant value
+	* @throws Exception
+	*/
 	protected Object parseIdentifierConstant(
-		Token token,TokenType sign)
+		Token token,TokenType sign) throws Exception
 	{
-		return null;
+		String name = token.getText();
+		SymTabEntry id = symTabStack.lookup(name);
+
+		nextToken(); // Consume the identifier.
+
+		// The identifier must have already been defined
+		// as a constant identifier.
+		if (id == null) {
+			errorHandler.flag(token,IDENTIFIER_UNDEFINED,this);
+			return null;
+		}
+
+		Definition definition = id.getDefinition();
+
+		if (definition == CONSTANT) {
+			Object value = id.getAttribute(CONSTANT_VALUE);
+			id.appendLineNumber(token.getLineNumber());
+
+			if (value instanceof Integer) {
+				return sign == MINUS ? -((Integer)value) : value;
+			}
+			else if (value instanceof Float) {
+				return sign == MINUS ? -((Float)value) : value;
+			}
+			else if (value instanceof String) {
+				if (sign != null) {
+					errorHandler.flag(token,INVALID_CONSTANT,this);
+				}
+
+				return value;
+			}
+			else {
+				return null;
+			}
+		}
+		else if (definition == ENUMERATION_CONSTANT) {
+			Object value = id.getAttribute(CONSTANT_VALUE);
+			id.appendLineNumber(token.getLineNumber());
+
+			if (sign != null) {
+				errorHandler.flag(token,INVALID_CONSTANT,this);
+			}
+
+			return value;
+		}
+		else if (definition == null) {
+			errorHandler.flag(token,NOT_CONSTANT_IDENTIFIER,this);
+			return null;
+		}
+		else {
+			errorHandler.flag(token,INVALID_CONSTANT,this);
+			return null;
+		}
 	}
 
 	/**
