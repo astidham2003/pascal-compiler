@@ -16,6 +16,7 @@ import static wci.frontend.pascal.PascalTokenType.*;
 import static wci.frontend.pascal.PascalErrorCode.MISSING_EQUALS;
 import static wci.frontend.pascal.PascalErrorCode.MISSING_SEMICOLON;
 import static wci.frontend.pascal.PascalErrorCode.IDENTIFIER_REDEFINED;
+import static wci.frontend.pascal.PascalErrorCode.INVALID_CONSTANT;
 
 import static wci.intermediate.symtabimpl.DefinitionImpl.CONSTANT;
 
@@ -152,7 +153,54 @@ public class ConstantDefinitionsParser extends PascalParserTD
 	*/
 	protected Object parseConstant(Token token) throws Exception
 	{
-		throw new Exception("Not implemented.");
+		TokenType sign = null;
+
+		// Synchronize at the start of a constant.
+		token = synchronize(CONSTANT_START_SET);
+		TokenType tokenType = token.getType();
+
+		// Plus or minus sign?
+		if ((tokenType == PLUS) || (tokenType == MINUS)) {
+			sign = tokenType;
+			token = nextToken(); // Consume the sign.
+		}
+
+		// Parse the constant.
+		if (token.getType() == IDENTIFIER) {
+			return parseIdentifierConstant(token,sign);
+		}
+
+		else if (token.getType() == INTEGER) {
+			Integer value = (Integer) token.getValue();
+			nextToken();  // Consume the number.
+			return sign == MINUS ? -value : value;
+		}
+
+		else if (token.getType() == REAL) {
+			Float value = (Float) token.getValue();
+			nextToken(); // Consume the number.
+			return sign == MINUS ? -value : value;
+		}
+
+		else if (token.getType() == STRING) {
+			if (sign != null) {
+				errorHandler.flag(token,INVALID_CONSTANT,this);
+			}
+
+			nextToken(); // Consume the string.
+			return (String) token.getValue();
+		}
+
+		else {
+			errorHandler.flag(token,INVALID_CONSTANT,this);
+			return null;
+		}
+	}
+
+	protected Object parseIdentifierConstant(
+		Token token,TokenType sign)
+	{
+		return null;
 	}
 
 	/**
