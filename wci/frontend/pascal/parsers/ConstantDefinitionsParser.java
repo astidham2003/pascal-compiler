@@ -11,6 +11,9 @@ import wci.frontend.pascal.PascalTokenType;
 import wci.intermediate.TypeSpec;
 import wci.intermediate.SymTabEntry;
 import wci.intermediate.Definition;
+import wci.intermediate.TypeFactory;
+
+import wci.intermediate.symtabimpl.Predefined;
 
 import static wci.frontend.pascal.PascalTokenType.*;
 
@@ -272,13 +275,55 @@ public class ConstantDefinitionsParser extends PascalParserTD
 	/**
 	* Return the type of a constant given its value.
 	*
-	* @param value the constant value
+	* @param value the constant's value
 	* @return the type specification
 	*/
 	protected TypeSpec getConstantType(Object value)
 	{
-		// XXX
-		return null;
+		TypeSpec constantType = null;
+
+		if (value instanceof Integer) {
+			constantType = Predefined.integerType;
+		}
+		else if (value instanceof Float) {
+			constantType = Predefined.realType;
+		}
+		else if (value instanceof String) {
+			if (((String) value).length() == 1) {
+				constantType = Predefined.charType;
+			}
+			else {
+				constantType = TypeFactory.
+					createStringType((String) value);
+			}
+		}
+
+		return constantType;
+	}
+
+	/**
+	* Return the type of a constant given its identifier.
+	*
+	* @param identifier the constant's identifier
+	* @return the type specification
+	*/
+	protected TypeSpec getConstantType(Token identifier)
+	{
+		SymTabEntry id = symTabStack.lookup(identifier.getText());
+
+		if (id == null) {
+			return null;
+		}
+
+		Definition definition = id.getDefinition();
+
+		if (definition == CONSTANT ||
+				definition == ENUMERATION_CONSTANT) {
+			return id.getTypeSpec();
+		}
+		else {
+			return null;
+		}
 	}
 }
 

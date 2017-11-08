@@ -7,8 +7,15 @@ import wci.intermediate.typeimpl.*;
 *
 * <p>A factory for creating type specification.</p>
 */
-public class TypeFactory
+public final class TypeFactory
 {
+
+	/**
+	* Constructor
+	*/
+	private TypeFactory()
+	{
+	}
 
 	/**
 	* Create a type specification of a given form.

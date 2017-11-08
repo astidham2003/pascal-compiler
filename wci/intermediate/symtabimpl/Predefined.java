@@ -17,8 +17,15 @@ import static wci.intermediate.typeimpl.TypeKeyImpl.*;
 * <p>Enter the predefined Pascal types, identifiers, and constants
 * into the symbol table.</p>
 */
-public class Predefined
+public final class Predefined
 {
+
+	/**
+	* Constructor
+	*/
+	private Predefined()
+	{
+	}
 
 	// Predefined types.
 	public static TypeSpec booleanType;
