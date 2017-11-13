@@ -39,11 +39,11 @@ import static wci.intermediate.symtabimpl.SymTabKeyImpl.CONSTANT_VALUE;
 public class ConstantDefinitionsParser extends PascalParserTD
 {
 	// Synchronization set for a constant identifier.
-	private static final EnumSet<PascalTokenType> IDENTIFIER_SET;
+	static final EnumSet<PascalTokenType> IDENTIFIER_SET;
 	// Synchronization set for starting a constant.
-	private static final EnumSet<PascalTokenType> CONSTANT_START_SET;
-	private static final EnumSet<PascalTokenType> EQUALS_SET;
-	private static final EnumSet<PascalTokenType> NEXT_START_SET;
+	static final EnumSet<PascalTokenType> CONSTANT_START_SET;
+	static final EnumSet<PascalTokenType> EQUALS_SET;
+	static final EnumSet<PascalTokenType> NEXT_START_SET;
 
 	static
 	{
