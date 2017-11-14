@@ -34,7 +34,7 @@ public enum PascalErrorCode
 	MISSING_COMMA("Missing ,"),
 	MISSING_CONSTANT("Missing constant"),
 	MISSING_DO("Missing DO"),
-	MISSING_DOT("Missing .."),
+	MISSING_DOT_DOT("Missing .."),
 	MISSING_END("Missing END"),
 	MISSING_EQUALS("Missing ="),
 	MISSING_FOR_CONTROL("Missing FOR control variable"),
@@ -44,7 +44,6 @@ public enum PascalErrorCode
 	MISSING_PERIOD("Missing ."),
 	MISSING_PROGRAM("Missing PROGRAM"),
 	MISSING_RIGHT_BRACKET("Missing ]"),
-	// XXX No missing left paren?
 	MISSING_RIGHT_PAREN("Missing )"),
 	MISSING_SEMICOLON("Missing ;"),
 	MISSING_THEN("Missing THEN"),
